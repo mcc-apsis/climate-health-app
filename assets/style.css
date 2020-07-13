@@ -1,0 +1,37 @@
+body {
+  font-family: "Computer Modern Sans", sans-serif;
+}
+
+.dash-table-container .row {
+  margin: 0;
+}
+
+.dataTables tbody tr {
+  min-height: 2em;
+}
+
+.masthead {
+  height: 100vh;
+  min-height: 500px;
+}
+
+.sectionHeading {
+  padding: 60px;
+  width: 100%;
+  background-color: rgba(125, 125, 125, 0.2);
+}
+
+.masthead::after {
+  content: "";
+  background-image: url('/assets/predicted_places_all_density.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.5;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1;
+}
