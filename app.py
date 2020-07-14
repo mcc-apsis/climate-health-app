@@ -10,9 +10,13 @@ import numpy as np
 import ast
 import time
 from dash.dependencies import Input, Output, State, MATCH, ALL
-
+import os
 import pandas as pd
 import json
+
+abspath = os.path.abspath(__file__)
+dname = os.path.dirname(abspath)
+os.chdir(dname)
 
 external_scripts = [
     "https://code.jquery.com/jquery-3.5.1.js",
@@ -23,7 +27,20 @@ external_stylesheets = [
     "https://cdn.rawgit.com/dreampulse/computer-modern-web-font/master/fonts.css",
     dbc.themes.BOOTSTRAP
 ]
-app = dash.Dash(__name__, external_stylesheets=external_stylesheets,external_scripts=external_scripts)
+app = dash.Dash(
+    __name__, 
+    external_stylesheets=external_stylesheets,
+    external_scripts=external_scripts,
+    requests_pathname_prefix='/climate-health/',
+    #url_base_pathname='/climate-health/'
+)
+
+print(app.config.routes_pathname_prefix)
+#app.config.requests_pathname_prefix = app.config.routes_pathname_prefix.split('/')[-1]
+
+
+
+server = app.server
 
 SIDEBAR_STYLE = {
     "position": "fixed",
@@ -218,7 +235,7 @@ for i, (regions, extent, label) in enumerate(zip(region_groups, extents,labels))
         vertical=True
     ))
 
-    if i > 1:
+    if i > 10:
         break
 
 
