@@ -147,12 +147,19 @@ def draw_heatmap(m, xticks, yticks,norm=-1):
     heatmap.update_layout(
         height=600,
         margin=go.layout.Margin(
-            l=0,
-            r=0,
-            b=10,
-            t=0
+            l=10,
+            r=10,
+            b=20,
+            t=10
         ),
         dragmode="select",
+    )
+
+    heatmap.update_xaxes(
+        title_text="Climate driver"
+    )
+    heatmap.update_yaxes(
+        title_text="Health impact"
     )
 
     return heatmap

@@ -35,8 +35,10 @@ external_stylesheets = [
 
 if "/var/www" in abspath:
     p_prefix = '/climate-health/'
+    fig_limit = 100
 else:
     p_prefix = '/'
+    fig_limit = 2
 
 app = dash.Dash(
     __name__,
@@ -135,7 +137,7 @@ for i, (regions, extent, label) in enumerate(zip(region_groups, extents,labels))
         vertical=True
     ))
 
-    if i > 1:
+    if i >= fig_limit:
         break
 
 
