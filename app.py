@@ -13,6 +13,9 @@ from dash.dependencies import Input, Output, State, MATCH, ALL
 import os
 import pandas as pd
 import json
+import pickle
+
+from graphs import draw_bar, draw_map, draw_heatmap
 
 abspath = os.path.abspath(__file__)
 dname = os.path.dirname(abspath)
@@ -40,14 +43,7 @@ app = dash.Dash(
     external_stylesheets=external_stylesheets,
     external_scripts=external_scripts,
     requests_pathname_prefix=p_prefix,
-    #requests_pathname_prefix='/climate-health/', #uncomment when in subdirectory
-    #url_base_pathname='/climate-health/'
 )
-
-print(app.config.routes_pathname_prefix)
-#app.config.requests_pathname_prefix = app.config.routes_pathname_prefix.split('/')[-1]
-
-
 
 server = app.server
 
@@ -78,8 +74,13 @@ country_shapes = pd.read_csv('data/country_shapes.csv')
 dts = pd.read_csv('data/doctopic.csv')
 df = pd.read_csv("data/dfid_df.csv")
 
+impact_driver_map = pd.read_csv('data/impact_driver_map.csv')
+
 with open("data/dfid.geojson", "r") as f:
     geojson = json.load(f)
+
+with open("data/driver_map.pickle", "rb") as f:
+    m, xticks, yticks = pickle.load(f)
 
 region_groups = [
     ["Western Africa"],
@@ -113,127 +114,17 @@ maps = []
 bars = []
 sliders = []
 
-def draw_bar(cr):
-    fig = px.bar(
-        cr, y="short_title", x="ldev",
-        #text="short_title"
-    )
-
-    fig.add_trace(go.Scatter(
-        x=np.where(cr.ldev>0,-0.25,0.25),
-        y=cr.short_title,
-        text=cr.short_title,
-        mode="text",
-        textposition=np.where(cr.ldev>0,"middle left","middle right")
-    ))
-    fig.layout.plot_bgcolor = 'white'
-    fig.layout.paper_bgcolor = 'white'
-    fig.update_xaxes(
-        tickmode="array",
-        tickvals=np.log([0.125,0.25,0.5,1,2,4,8]),
-        ticktext=["1/8","1/4","1/2","1","2","4","8"],
-        title_text="region share/world share"
-    )
-    fig.update_layout(
-        margin=go.layout.Margin(
-            l=0,
-            r=0,
-            b=10,
-            t=0
-        ),
-         xaxis_range=[
-            min(np.log(0.125),cr.ldev.min()),max(np.log(8),cr.ldev.max())
-        ],
-        showlegend=False
-    )
-    fig.update_yaxes(
-        showticklabels=False,
-        title_text=""
-    )
-
-    fig.update_traces(
-        #marker_opacity=0.1,
-        marker_line_color="black",
-        marker_line_width=1,
-        marker_color="white"
-    )
-    return fig
-
 titles = []
 t0 = time.time()
 for i, (regions, extent, label) in enumerate(zip(region_groups, extents,labels)):
-    print(i, time.time()-t0)
-    cs = country_shapes.loc[
-        (country_shapes['DFID priority'] == 1) &
-        (country_shapes['UN statistical'].isin(regions))
-    ]
-
-    sub_df = df[df["country_predicted"].isin(cs["SOV_A3"])]
-
-    fig = go.Figure()
-
-    fig.add_trace(go.Choropleth(
-        locations = cs["SOV_A3"],
-        geojson=geojson,
-        z=country_shapes["DFID priority"],
-        featureidkey='properties.id',
-        #colorscale= [[0, 'rgb( 0.9 , 0.9 , 0.8)'], [1, 'rgb( 0.9 , 0.9 , 0.8)']],
-        colorscale = [[0, "#fed9a6"], [1, "#fed9a6"]],
-        showscale=False,
-    ))
-
-
-    fig.add_trace(go.Scattergeo(
-        #locationmode = 'country names',
-        lon = sub_df['lon'],
-        lat = sub_df['lat'],
-        ids = sub_df.place_doc_id,
-        #text = sub_df['text'],
-        #line_width = 0.02,
-        marker = dict(
-            size = 10,
-            opacity=0.5,
-            #line_color='rgb(40,40,40)',
-            line_width=0.5,
-            #sizemode = 'area'
-        )
-    ))
-
-    titles.append(f'{label}, {len(sub_df.id.unique())} studies')
-
-    fig.update_layout(
-        #height=500,
-        margin=go.layout.Margin(
-            l=0,
-            r=0,
-            b=10,
-            t=0
-        ),
-        geo = go.layout.Geo(
-            lonaxis_range=extent[0:2],
-            lataxis_range=extent[2:],
-            showcountries = True,
-            #line_width=0.2
-        ),
-        dragmode="select",
-        showlegend=None
-    )
-
-    fig.update_geos(
-        resolution=50,
-        showocean=True,
-        oceancolor="rgb(0.59375 , 0.71484375, 0.8828125)",
-        lakecolor="rgb(0.59375 , 0.71484375, 0.8828125)",
-        rivercolor="rgb(0.59375 , 0.71484375, 0.8828125)",
-        landcolor="rgba( 0.9375 , 0.9375 , 0.859375, 0.5)"
-    )
+    #print(i, time.time()-t0)
+    fig, label_n = draw_map(regions, extent, geojson, country_shapes, df, label)
+    titles.append(label_n)
 
     maps.append(fig)
 
     cr = dfid_topics[dfid_topics["DFID region"]==label]
     bars.append(draw_bar(cr.tail(5)))
-
-
 
     sliders.append(dcc.Slider(
         id={"type":"slider","index": i},
@@ -244,10 +135,12 @@ for i, (regions, extent, label) in enumerate(zip(region_groups, extents,labels))
         vertical=True
     ))
 
-    if i > 10:
+    if i > 1:
         break
 
 
+##############
+## Table data
 
 table_df = df.merge(
     dts.pivot(index="doc_id",columns="topic_id",values="score").fillna(0),
@@ -294,6 +187,7 @@ navbar = html.Nav(
         html.Ul([
             html.Li(html.A("Climate and Health", href="#", className="nav-link", id="nav-home"),className="nav-item"),
             html.Li(html.A("Regions", href="#regions-map", className="nav-link", id="nav-regions"),className="nav-item"),
+            html.Li(html.A("Pathways", href="#pathways", className="nav-link", id="nav-pathways"), className="nav-item"),
             html.Li(html.A("Topics", href="#topic-map",className="nav-link", id="nav-topics"),className="nav-item")
         ], className="nav nav-pills")
     ],
@@ -345,6 +239,41 @@ topic_content = html.Div([
     html.P("This section is empty"),
 ] + [html.P("...") for x in range(20)])
 
+
+pathway_content = html.Div([
+    dbc.Container([
+        dbc.Row([
+            html.H3("Climate and health pathways",className="m-5"),
+        ]),
+        dbc.Row([
+            html.P([
+                html.Button('No normalisation',id="bnorm-1", className="btn btn-outline-dark m-2"),
+                html.Button('Normalise by column sum',id="bnorm-2", className="btn btn-outline-dark m-2"),
+                html.Button('Normalise by row sum',id="bnorm-3", className="btn btn-outline-dark m-2"),
+            ])
+        ]),
+        dbc.Row([
+            dbc.Col([
+                dcc.Graph(
+                    id="heatmap_1",
+                    figure=draw_heatmap(m, xticks, yticks)),
+            ])
+        ]),
+    ],className="mb-5")
+], style=CONTENT_STYLE)
+
+pathways_text = dcc.Markdown("""
+
+We grouped the topics above into broaders **climate drivers** and **health impacts** categories
+
+The following "Heatmaps" show the number of documents in each combination of topic.
+
+Click on any cell to see the documents which score highly for both topics.
+
+The cells are coloured by absolute numbers (larger numbers = darker colouring).
+Click on the normalise buttons to colour by row proportion or column proportion
+""")
+
 app.layout = html.Div([
     navbar,
     html.Div([
@@ -381,6 +310,15 @@ app.layout = html.Div([
         ####### SECTION
         ## SECTIONTITLE
         dbc.Container([
+            html.H2(children='Climate and Health Pathways',id="pathways"),
+            html.Div(pathways_text),
+        ], className="sectionHeading", id="pathways-heading", fluid=True),
+        html.Div(children=[
+            pathway_content
+        ]),
+        ####### SECTION
+        ## SECTIONTITLE
+        dbc.Container([
             html.H2(children='Topic Map of Climate and Health Literature',id="topic-map"),
             html.Div(children='''
                 Text...
@@ -392,7 +330,23 @@ app.layout = html.Div([
     ])
 ])
 
-
+@app.callback(
+    [Output("heatmap_1","figure")],
+    [
+        Input('bnorm-1','n_clicks'),
+        Input('bnorm-2','n_clicks'),
+        Input('bnorm-3','n_clicks')
+    ]
+)
+def bnorm_heatmap(btn1, btn2, btn3):
+    changed_id = [p['prop_id'] for p in dash.callback_context.triggered][0]
+    if "bnorm-1" in changed_id:
+        return [draw_heatmap(m, xticks, yticks,-1)]
+    elif "bnorm-2" in changed_id:
+        return [draw_heatmap(m, xticks, yticks,0)]
+    elif "bnorm-3" in changed_id:
+        return [draw_heatmap(m, xticks, yticks,1)]
+    return [draw_heatmap(m, xticks, yticks,-1)]
 
 @app.callback(
     [
@@ -401,10 +355,11 @@ app.layout = html.Div([
     ],
     [
         Input({'type': 'bar', 'index': ALL}, 'clickData'),
-        Input({'type': 'map', 'index': ALL}, 'selectedData')
+        Input({'type': 'map', 'index': ALL}, 'selectedData'),
+        Input("heatmap_1", 'clickData')
     ],
 )
-def bar_click(clickData, selectedData):
+def bar_click(clickData, selectedData, heatmapClick):
     ctx = dash.callback_context
     t = "No topics selected"
     if not ctx.triggered:
@@ -412,6 +367,25 @@ def bar_click(clickData, selectedData):
     else:
 
         rel_df = table_df
+
+        if "heatmap_1" in ctx.triggered[0]['prop_id']:
+            t1 = heatmapClick['points'][0]['x']
+            t2 = heatmapClick['points'][0]['y']
+            thresh=0.015
+            sub_df = impact_driver_map[
+                (impact_driver_map[t1]>thresh) &
+                (impact_driver_map[t2]>thresh)
+            ]
+            sub_df["tp"] = sub_df[t1]*sub_df[t2]
+
+            rel_df = (
+                sub_df
+                .sort_values('tp',ascending=False)
+                .reset_index(drop=True)
+                .merge(table_df, left_on="doc_id",right_on="id")
+            )
+            return rel_df.to_dict('records'), f"{t2} & {t1}"
+
         idx = ast.literal_eval(ctx.triggered[0]['prop_id'].split('.')[0])['index']
 
         if clickData[idx] is not None:
@@ -429,7 +403,6 @@ def bar_click(clickData, selectedData):
             ]
         return [rel_df.to_dict('records'), t]
     return [table_df.to_dict('records'), t]
-
 
 @app.callback(
     Output({'type': 'bar', 'index': MATCH},'figure'),
