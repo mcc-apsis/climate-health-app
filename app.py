@@ -39,6 +39,7 @@ app = dash.Dash(
     __name__,
     external_stylesheets=external_stylesheets,
     external_scripts=external_scripts,
+    requests_pathname_prefix=p_prefix,
     #requests_pathname_prefix='/climate-health/', #uncomment when in subdirectory
     #url_base_pathname='/climate-health/'
 )
