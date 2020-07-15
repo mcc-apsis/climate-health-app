@@ -1,25 +1,40 @@
 
 jQuery(document).ready(function($){
   function has_scrolled() {
-    if ($("#regions-heading").offset().top < $(window).scrollTop() -50) {
-      if ($("#sidebar").hasClass("inView")) {
-
+    if ($("#regions-heading").offset().top < $(window).scrollTop() + $(window).height()/3) {
+      var headingBottom = $("#regions-heading").offset().top + $("#regions-heading").outerHeight()
+      if (headingBottom < $(window).scrollTop()) {
+        var scrollBottom = $(window).scrollTop() + $("#sidebar").outerHeight();
+        if ($("#topic-heading").offset().top < scrollBottom) {
+          if ($("#topic-heading").offset().top < $(window).scrollTop() + $(window).height()/3) {
+            $("#nav-regions").removeClass("active")
+            $("#nav-topics").addClass("active")
+          } else {
+            $("#nav-regions").addClass("active")
+            $("#nav-topics").removeClass("active")
+          }
+          var newTop = $("#topic-heading").offset().top - $(window).scrollTop() - $("#sidebar").outerHeight()
+          $("#sidebar").css({"top": newTop})
+        } else {
+          $("#sidebar").css({"top": 0})
+        }
       } else {
-        console.log("show sidebar")
-        $("#sidebar")
-          .addClass("inView")
-          .css({"top":1000})
-          .animate({"top": 0});
+        if ($("#sidebar").hasClass("inView")) {
+          $("#sidebar").css({"top":headingBottom - $(window).scrollTop()})
+        } else {
+          $("#sidebar")
+            .addClass("inView")
+            .animate({"top": headingBottom - $(window).scrollTop()});
+          $("#nav-regions").addClass("active")
+        }
       }
     } else {
       if ($("#sidebar").hasClass("inView")) {
-        console.log("hide sidebar")
         $("#sidebar")
           .removeClass("inView")
-          .css({"top":0})
           .animate({"top": 1200});
+        $("#nav-regions").removeClass("active")
       }
-
     }
   }
   $(window).on('scroll resize', has_scrolled);

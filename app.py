@@ -20,18 +20,26 @@ os.chdir(dname)
 
 external_scripts = [
     "https://code.jquery.com/jquery-3.5.1.js",
-    'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML'
+    'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML',
+    'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js',
+    'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js'
 ]
 
 external_stylesheets = [
     "https://cdn.rawgit.com/dreampulse/computer-modern-web-font/master/fonts.css",
     dbc.themes.BOOTSTRAP
 ]
+
+if "/var/www" in abspath:
+    p_prefix = '/climate-health/'
+else:
+    p_prefix = '/'
+
 app = dash.Dash(
-    __name__, 
+    __name__,
     external_stylesheets=external_stylesheets,
     external_scripts=external_scripts,
-    requests_pathname_prefix='/climate-health/',
+    #requests_pathname_prefix='/climate-health/', #uncomment when in subdirectory
     #url_base_pathname='/climate-health/'
 )
 
@@ -95,7 +103,7 @@ extents = [
     [-15,5,0,20],
     [5,55,-30,30],
     [30,60,10,40],
-    [66,81,35,45],
+    [66,81,32.5,47.5],
     [59,99,3,43],
     [90,145,-20,30]
 ]
@@ -280,6 +288,18 @@ sidebar = html.Div(
     id="sidebar"
 )
 
+navbar = html.Nav(
+    [
+        html.Ul([
+            html.Li(html.A("Climate and Health", href="#", className="nav-link", id="nav-home"),className="nav-item"),
+            html.Li(html.A("Regions", href="#regions-map", className="nav-link", id="nav-regions"),className="nav-item"),
+            html.Li(html.A("Topics", href="#topic-map",className="nav-link", id="nav-topics"),className="nav-item")
+        ], className="nav nav-pills")
+    ],
+    className="navbar fixed-top navbar-expand navbar-light bg-light justify-content-left",
+    id="navbar"
+)
+
 graphs = []
 for i, fig in enumerate(maps):
     graphs.append(
@@ -320,34 +340,55 @@ logos = [
 
 logo_cols = [dbc.Col([html.Img(src=x, height="128em")], lg=4, className="m-4") for x in logos]
 
-app.layout = html.Div(children=[
-    html.Header([
+topic_content = html.Div([
+    html.P("This section is empty"),
+] + [html.P("...") for x in range(20)])
+
+app.layout = html.Div([
+    navbar,
+    html.Div([
+        html.Header([
+            dbc.Container([
+                dbc.Row([
+                    dbc.Col([
+                        dbc.Row([
+                            html.H1("Climate and Health",className="m-5"),
+                        ],className="justify-content-center"),
+                        dbc.Row([
+                            html.H2("A rapid, computer-assisted systematic map of the literature",className="mb-5")
+                        ], className="justify-content-center"),
+                        dbc.Row(logo_cols,className="col-12 justify-content-md-center")
+                    ],className="col-12 text-center"),
+                ], className="h-100 align-items-center"),
+            ], className="h-100")
+        ], className="masthead"),
+        ###### SECTION
+        ## SECTIONTITLE
         dbc.Container([
-            dbc.Row([
-                dbc.Col([
-                    dbc.Row([
-                        html.H1("Climate and Health",className="m-5"),
-                    ],className="justify-content-center"),
-                    dbc.Row([
-                        html.H2("A rapid, computer-assisted systematic map of the literature",className="mb-5")
-                    ], className="justify-content-center"),
-                    dbc.Row(logo_cols,className="col-12 justify-content-md-center")
-                ],className="col-12 text-center"),
-            ], className="h-100 align-items-center"),
-        ], className="h-100")
-    ], className="masthead"),
-    dbc.Container([
-        html.H2(children='Climate and Health studies in DFID priority countries'),
-        html.Div(children='''
-            Select a group of studies by dragging a box around them on the maps below.
-            Click on the topic bars to filter by topic.
-        '''),
-    ], className="sectionHeading", id="regions-heading", fluid=True),
-    html.Div(children=[
-        content,
-        sidebar
-        ]
-    )
+            html.H2(children='Climate and Health studies in DFID priority countries',id="regions-map"),
+            html.Div(children='''
+                Select a group of studies by dragging a box around them on the maps below.
+                Click on the topic bars to filter by topic.
+            '''),
+        ], className="sectionHeading", id="regions-heading", fluid=True),
+        ## SECTIONCONTENT
+        html.Div(children=[
+            content,
+            sidebar
+            ]
+        ),
+        ####### SECTION
+        ## SECTIONTITLE
+        dbc.Container([
+            html.H2(children='Topic Map of Climate and Health Literature',id="topic-map"),
+            html.Div(children='''
+                Text...
+            '''),
+        ], className="sectionHeading", id="topic-heading", fluid=True),
+        html.Div(children=[
+            topic_content
+        ])
+    ])
 ])
 
 
