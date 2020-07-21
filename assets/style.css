@@ -1,5 +1,6 @@
 body {
-  font-family: "Computer Modern Sans", sans-serif;
+  /* font-family: "Computer Modern Sans", sans-serif; */
+  font-family: Arial;
 }
 
 .dash-table-container .row {

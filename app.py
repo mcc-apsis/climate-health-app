@@ -25,7 +25,7 @@ external_scripts = [
     "https://code.jquery.com/jquery-3.5.1.js",
     'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML',
     'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js',
-    'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js'
+    'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js',
 ]
 
 external_stylesheets = [
@@ -36,9 +36,11 @@ external_stylesheets = [
 if "/var/www" in abspath:
     p_prefix = '/climate-health/'
     fig_limit = 100
+    topic_src = 'https://cemac.github.io/DIFID/ui/#'
 else:
     p_prefix = '/'
     fig_limit = 2
+    topic_src = 'http://0.0.0.0:8000/ui'
 
 app = dash.Dash(
     __name__,
@@ -229,7 +231,7 @@ content = html.Div([
 ] , style=CONTENT_STYLE, id="content")
 
 logos = [
-    '/assets/DfID.png',
+    #'/assets/DfID.png',
     '/assets/University-of-Leeds-logo.png',
     '/assets/lshtm-black.svg',
     '/assets/MCC_Logo_RZ_rgb.jpg'
@@ -238,8 +240,8 @@ logos = [
 logo_cols = [dbc.Col([html.Img(src=x, height="128em")], lg=4, className="m-4") for x in logos]
 
 topic_content = html.Div([
-    html.P("This section is empty"),
-] + [html.P("...") for x in range(20)])
+    html.Iframe(src="http://0.0.0.0:8000/ui/",width="100%",height="1000px")
+])
 
 
 pathway_content = html.Div([
@@ -289,6 +291,9 @@ app.layout = html.Div([
                         dbc.Row([
                             html.H2("A rapid, computer-assisted systematic map of the literature",className="mb-5")
                         ], className="justify-content-center"),
+                        dbc.Row([
+                            html.H4("Funded by the Department for International Development",className="mb-5")
+                        ], className="justify-content-center"),
                         dbc.Row(logo_cols,className="col-12 justify-content-md-center")
                     ],className="col-12 text-center"),
                 ], className="h-100 align-items-center"),
@@ -297,7 +302,7 @@ app.layout = html.Div([
         ###### SECTION
         ## SECTIONTITLE
         dbc.Container([
-            html.H2(children='Climate and Health studies in DFID priority countries',id="regions-map"),
+            html.H2(children='Climate and Health studies in DfID priority countries',id="regions-map"),
             html.Div(children='''
                 Select a group of studies by dragging a box around them on the maps below.
                 Click on the topic bars to filter by topic.
@@ -323,7 +328,10 @@ app.layout = html.Div([
         dbc.Container([
             html.H2(children='Topic Map of Climate and Health Literature',id="topic-map"),
             html.Div(children='''
-                Text...
+                This section maps each individual document as a point in a 2-dimensional representation of the topic space.
+                Documents with similar topics are plotted close togther.
+
+                Hover over a document to see its title, and double click to search for it online.
             '''),
         ], className="sectionHeading", id="topic-heading", fluid=True),
         html.Div(children=[

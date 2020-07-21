@@ -1,71 +1,71 @@
-id,title,top_words,short_title
-212274,"Infection, Infectious disease","['diseas', 'infecti', 'respiratori', 'cardiovascular', 'vectorborn', 'outbreak', 'burden', 'heart', 'chronic', 'prevent']",Infection
-212321,"Mental, Mental health","['mental', 'health', 'disord', 'physic', 'psycholog', 'distress', 'depress', 'wellb', 'anxieti', 'stress']",Mental
-212322,"Drought, Drought","['drought', 'impact', 'index', 'veget', 'sever', 'agricultur', 'indic', 'vhi', 'precipit', 'year']",Drought
-212323,"Suicide, Suicide","['suicid', 'associ', 'rate', 'attempt', 'male', 'men', 'studi', 'report', 'age', 'women']",Suicide
-212327,"Daily, Daily data & trends","['day', 'daili', 'period', 'dure', 'visit', 'number', 'increas', 'averag', 'associ', 'befor']",Daily
-212329,"Death, Excess deaths","['death', 'caus', 'excess', 'year', 'age', 'estim', 'attribut', 'popul', 'rate', 'fatal']",Death
-212330,"RCP, Climate change scenarios","['scenario', 'project', 'rcp', 'futur', 'increas', 'global', 'simul', 'pathway', 'region', 'model']",RCP
-212331,"Cholera, Cholera","['cholera', 'outbreak', 'epidem', 'rainfal', 'transmiss', 'nino', 'vibrio', 'enso', 'haiti', 'bangladesh']",Cholera
-212332,"Dust storm, Dust storms","['dust', 'storm', 'sourc', 'desert', 'event', 'asian', 'saharan', 'particl', 'aerosol', 'transport']",Dust storm
-212333,"Cold, Cold spells","['cold', 'spell', 'hot', 'extrem', 'temperatur', 'cvd', 'winter', 'attribut', 'effect', 'percentil']",Cold
-212334,"Exposure, Exposure to pollution","['exposur', 'associ', 'estim', 'ambient', 'increas', 'person', 'adjust', 'shortterm', 'studi', 'use']",Exposure
-212336,"Sand fly, Sand flies & leishmaniasis","['fli', 'sand', 'speci', 'leishmaniasi', 'vector', 'abund', 'collect', 'leishmania', 'cutan', 'trap']",Sand fly
-212337,"Patients, Patients","['patient', 'age', 'group', 'medic', 'diabet', 'acut', 'clinic', 'year', 'studi', 'care']",Patients
-212272,"Air pollution, Air pollution","['pollut', 'air', 'qualiti', 'dioxid', 'level', 'particul', 'matter', 'effect', 'nitrogen', 'environment']",Air pollution
-212273,"Climate change, Impacts of climate change","['climat', 'chang', 'impact', 'human', 'global', 'increas', 'mitig', 'affect', 'effect', 'futur']",Climate change
-212275,"Heat wave, Heat waves","['wave', 'heat', 'intens', 'dure', 'definit', 'durat', 'frequenc', 'period', 'excess', 'defin']",Heat wave
-212276,"PTSD, PTSD & depression","['ptsd', 'symptom', 'depress', 'stress', 'posttraumat', 'disord', 'preval', 'trauma', 'particip', 'survivor']",PTSD
-212279,"Mortality, Mortality","['mortal', 'cardiovascular', 'allcaus', 'rate', 'excess', 'respiratori', 'daili', 'estim', 'nonaccident', 'heatrel']",Mortality
-212280,"Risk, Climate risk","['risk', 'factor', 'percept', 'hazard', 'relat', 'high', 'assess', 'higher', 'perceiv', 'map']",Risk
-212281,"Emissions, Emission of air pollution","['emiss', 'nox', 'vehicl', 'sourc', 'reduct', 'fuel', 'carbon', 'ship', 'transport', 'contribut']",Emissions
-212282,"Pollen, Pollen & airborne allergens","['pollen', 'allergen', 'airborn', 'allergi', 'allerg', 'grass', 'grain', 'count', 'poacea', 'concentr']",Pollen
-212284,"Floods, Floods","['flood', 'damag', 'river', 'flash', 'impact', 'event', 'area', 'peopl', 'fatal', 'affect']",Floods
-212285,"Dengue, Dengue fever","['dengu', 'fever', 'outbreak', 'transmiss', 'epidem', 'denv', 'vector', 'virus', 'rainfal', 'control']",Dengue
-212286,"Mosquito, Mosquito vectors","['mosquito', 'vector', 'aed', 'aegypti', 'albopictus', 'transmiss', 'abund', 'virus', 'speci', 'popul']",Mosquito
-212287,"Energy, Energy policy & mitigation","['energi', 'cost', 'polici', 'benefit', 'cobenefit', 'electr', 'reduc', 'mitig', 'econom', 'reduct']",Energy
-212288,"UHI, Urban heat island","['uhi', 'island', 'effect', 'surfac', 'urban', 'intens', 'heat', 'daytim', 'nighttim', 'cool']",UHI
-212290,"Particulates, Particulate matter","['concentr', 'particl', 'particul', 'site', 'mass', 'matter', 'aerosol', 'measur', 'sourc', 'dure']",Particulates
-212291,"Urban, Urban areas","['urban', 'area', 'rural', 'green', 'island', 'space', 'land', 'environ', 'site', 'plan']",Urban
-212293,"Public health, Public health & health systems","['health', 'public', 'review', 'impact', 'research', 'system', 'environment', 'literatur', 'care', 'need']",Public health
-212294,"HFMD, Hand-foot-and-mouth disease","['hfmd', 'mouth', 'foot', 'hand', 'factor', 'meteorolog', 'diseas', 'childhood', 'humid', 'relat']",HFMD
-212295,"Disaster, Natural disasters & responses","['disast', 'prepared', 'natur', 'manag', 'respons', 'earthquak', 'reduct', 'peopl', 'emerg', 'affect']",Disaster
-212296,"Birth, Birth & pregnancy","['birth', 'preterm', 'pregnanc', 'women', 'gestat', 'weight', 'matern', 'week', 'deliveri', 'infant']",Birth
-212297,"Extreme events, Extreme weather events","['extrem', 'event', 'precipit', 'frequenc', 'trend', 'increas', 'rainfal', 'intens', 'impact', 'heavi']",Extreme events
-212298,"Ozone, Ozone concentrations","['ozon', 'concentr', 'ppb', 'nox', 'tropospher', 'surfac', 'precursor', 'voc', 'groundlevel', 'nitrogen']",Ozone
-212299,"Food, Food security","['food', 'secur', 'insecur', 'nutrit', 'agricultur', 'product', 'hunger', 'africa', 'countri', 'peopl']",Food
-212300,"Asthma, Asthma","['asthma', 'visit', 'emerg', 'outpati', 'exacerb', 'depart', 'allerg', 'respiratori', 'associ', 'childhood']",Asthma
-212301,"Weather, Weather conditions","['weather', 'condit', 'crash', 'variabl', 'type', 'warn', 'synopt', 'pain', 'station', 'associ']",Weather
-212302,"Influenza, Influenza","['influenza', 'epidem', 'virus', 'activ', 'week', 'pandem', 'vaccin', 'ili', 'surveil', 'ahn']",Influenza
-212304,"Seasonality, Seasonal variation","['season', 'winter', 'summer', 'variat', 'dure', 'month', 'pattern', 'peak', 'spring', 'dri']",Seasonality
-212306,"Fire, Forest fire","['fire', 'burn', 'forest', 'biomass', 'aerosol', 'smoke', 'wildland', 'region', 'peatland', 'impact']",Fire
-212310,"Agriculture, Agricultre","['farmer', 'crop', 'agricultur', 'farm', 'product', 'percept', 'yield', 'pest', 'smallhold', 'rice']",Agriculture
-212311,"Areas, Spatial clustering","['spatial', 'area', 'region', 'map', 'cluster', 'distribut', 'geograph', 'use', 'environment', 'data']",Areas
-212312,"Hydrocarbons, Air pollution: PAH","['pah', 'sourc', 'combust', 'aromat', 'hydrocarbon', 'polycycl', 'sampl', 'cancer', 'burn', 'biomass']",Hydrocarbons
-212313,"Stroke, Stroke","['stroke', 'ischem', 'hemorrhag', 'associ', 'subtyp', 'pressur', 'onset', 'ich', 'sah', 'heart']",Stroke
-212315,"Inicidence, Disease incidence","['incid', 'rate', 'month', 'per', 'annual', 'year', 'provinc', 'increas', 'irr', 'popul']",Inicidence
-212316,"Hurricane, Hurricanes & evacuation","['hurrican', 'evacu', 'sandi', 'storm', 'katrina', 'new', 'emerg', 'resid', 'recoveri', 'york']",Hurricane
-212317,"Adaptation, Adaptation strategies","['adapt', 'strategi', 'plan', 'polici', 'capac', 'govern', 'develop', 'local', 'sector', 'measur']",Adaptation
-212318,"Heatwave, Heatwaves","['heatwav', 'definit', 'australia', 'dure', 'intens', 'impact', 'excess', 'ehf', 'warn', 'brisban']",Heatwave
-212338,"Work injury, Work-related injuries","['injuri', 'worker', 'occup', 'work', 'accid', 'road', 'traffic', 'workplac', 'safeti', 'workrel']",Work injury
-212341,"Leptospirosis, Leptospirosis","['leptospirosi', 'leptospira', 'human', 'anim', 'outbreak', 'rainfal', 'rodent', 'serovar', 'dog', 'zoonot']",Leptospirosis
-212277,"Malaria, Malaria","['malaria', 'transmiss', 'falciparum', 'plasmodium', 'vivax', 'parasit', 'rainfal', 'control', 'anophel', 'elimin']",Malaria
-212308,"Cases, Cases of disease","['case', 'report', 'number', 'year', 'month', 'occur', 'surveil', 'confirm', 'period', 'outbreak']",Cases
-212314,"Children, Children","['children', 'age', 'year', 'school', 'child', 'parent', 'childhood', 'group', 'among', 'symptom']",Children
-212289,"Hospital, Hospital admissions","['hospit', 'admiss', 'respiratori', 'associ', 'pneumonia', 'ami', 'cardiovascular', 'copd', 'daili', 'increas']",Hospital
-212320,"Statistics, Statistical lag","['lag', 'effect', 'associ', 'week', 'nonlinear', 'model', 'cumul', 'distribut', 'cardiovascular', 'respiratori']",Statistics
-212309,"Temperature, Ambient temperature","['temperatur', 'degre', 'increas', 'mean', 'ambient', 'daili', 'maximum', 'minimum', 'high', 'threshold']",Temperature
-212278,"Heat stress, Heat stress","['heat', 'stress', 'heatrel', 'wbgt', 'thermal', 'index', 'worker', 'ill', 'work', 'hot']",Heat stress
-212339,"Cities, Sustainable cities","['citi', 'transport', 'plan', 'traffic', 'new', 'level', 'vehicl', 'york', 'cityspecif', 'capit']",Cities
-212335,"RSV, Infection & respiratory syncytial virus","['infect', 'rsv', 'preval', 'virus', 'rate', 'respiratori', 'transmiss', 'wnv', 'human', 'viral']",RSV
-212305,"Meteorology, Meteorological variables","['correl', 'humid', 'meteorolog', 'relat', 'wind', 'rainfal', 'factor', 'month', 'variabl', 'speed']",Meteorology
-212307,"Vulnerability, Vulnerability to climate change","['vulner', 'social', 'hazard', 'indic', 'index', 'popul', 'livelihood', 'assess', 'capac', 'econom']",Vulnerability
-212325,"Resilience, Community resilience","['communiti', 'resili', 'social', 'particip', 'local', 'knowledg', 'interview', 'resid', 'percept', 'build']",Resilience
-212319,"Household, Household  & houshold fuel use","['household', 'rural', 'stove', 'fuel', 'cook', 'survey', 'incom', 'use', 'shock', 'access']",Household
-212292,"Water, Drinking water","['water', 'drink', 'sourc', 'contamin', 'suppli', 'qualiti', 'groundwat', 'sanit', 'sampl', 'resourc']",Water
-212328,"In-/outdoor, In- & outdoor air & temperature","['indoor', 'outdoor', 'home', 'build', 'hous', 'ventil', 'environ', 'thermal', 'school', 'comfort']",In-/outdoor
-212303,"Smoke, Wildfires, smoke & impact","['wildfir', 'smoke', 'respiratori', 'popul', 'plume', 'state', 'cost', 'counti', 'california', 'cardiovascular']",Smoke
-212283,"Model, Forecasting model","['model', 'predict', 'forecast', 'use', 'data', 'variabl', 'develop', 'estim', 'simul', 'accuraci']",Model
-212326,"China, China","['china', 'provinc', 'region', 'haze', 'hfrs', 'chines', 'control', 'north', 'beij', 'aod']",China
-212340,"Diurnal temp., Diurnal temperature range","['dtr', 'diurnal', 'effect', 'rang', 'elder', 'childhood', 'degre', 'modifi', 'nonaccident', 'increas']",Diurnal temp.
-212324,"Spores, Fungal spores","['spore', 'fungal', 'airborn', 'alternaria', 'cladosporium', 'fungi', 'concentr', 'bioaerosol', 'type', 'allergen']",Spores
+id,title,top_words,Topic ID,Aggregated meta-topic,Aggregated topic,Topic,short_title
+213129,"Urban, Urban areas","['urban', 'citi', 'uhi', 'area', 'island', 'green', 'rural', 'plan', 'land', 'space']",213129,Mediating pathways,Geographic exposure,Urban areas,Urban
+213130,"PM2.5-10, Particulate matter","['particulatematt', 'particul', 'matter', 'concentr', 'fine', 'pollut', 'diamet', 'μgm', 'level', 'respect']",213130,Exposure,Emissions,Particulate matter,PM2.5-10
+213131,"Heat stress, Heat stress","['heat', 'stress', 'heatrel', 'ill', 'extrem', 'worker', 'dure', 'wbgt', 'island', 'work']",213131,Health impact,Chronic,Heat stress,Heat stress
+213128,"Dengue, Dengue","['dengu', 'fever', 'outbreak', 'denv', 'epidem', 'aed', 'control', 'vector', 'serotyp', 'aegypti']",213128,Health impact,Infectious,Dengue,Dengue
+213122,"Climate change, General climate change","['climat', 'chang', 'impact', 'global', 'increas', 'human', 'mitig', 'futur', 'affect', 'consequ']",213122,Exposure,General climate change,General climate change,Climate change
+213124,"NOx/Vehicles, Emissions (NOx & vehicles)","['emiss', 'nox', 'vehicl', 'sourc', 'fuel', 'reduct', 'ship', 'carbon', 'contribut', 'transport']",213124,Exposure,Emissions,Emissions (Nox & vehicles),NOx/Vehicles
+213126,"Disaster, Natural disasters","['disast', 'natur', 'prepared', 'manag', 'respons', 'peopl', 'reduct', 'earthquak', 'emerg', 'affect']",213126,Intervention option,Disaster risk reduction,Disaster risk reduction,Disaster
+213123,"Air pollution, Air pollution","['pollut', 'air', 'qualiti', 'dioxid', 'level', 'citi', 'particul', 'effect', 'matter', 'nitrogen']",213123,Health impact,Respiratory,Air pollution,Air pollution
+213125,"Mortality, Mortality","['mortal', 'cardiovascular', 'allcaus', 'respiratori', 'excess', 'rate', 'estim', 'daili', 'increas', 'citi']",213125,Health impact,All-cause mortality,Mortality,Mortality
+213127,"Malaria, Malaria","['malaria', 'transmiss', 'falciparum', 'plasmodium', 'vivax', 'parasit', 'control', 'anophel', 'elimin', 'intervent']",213127,Health impact,Infectious,Malaria,Malaria
+213132,"Pollen, Pollen & allergies","['pollen', 'allergen', 'airborn', 'allergi', 'grass', 'grain', 'allerg', 'count', 'poacea', 'concentr']",213132,Health impact,Respiratory,Pollen & allergies,Pollen
+213133,"Flood, Floods","['flood', 'damag', 'river', 'flash', 'event', 'impact', 'peopl', 'fatal', 'area', 'dysenteri']",213133,Exposure,Extreme precipitation & flooding,Floods,Flood
+213134,"Case, Case data","['case', 'report', 'number', 'year', 'occur', 'confirm', 'surveil', 'period', 'dure', 'fever']",213134,Other,Methods,Case data,Case
+213135,"Infectious, Infectious diseases general","['diseas', 'infecti', 'respiratori', 'cardiovascular', 'vectorborn', 'burden', 'heart', 'chronic', 'diarrheal', 'prevent']",213135,Health impact,Infectious,Infectious diseases general,Infectious
+213137,"Mosquito, Mosquito vector dynamics","['mosquito', 'vector', 'abund', 'speci', 'aed', 'aegypti', 'albopictus', 'popul', 'trap', 'densiti']",213137,Health impact,Infectious,Mosquito vector dynamics,Mosquito
+213138,"Model, Modelling & forecasting","['model', 'predict', 'forecast', 'use', 'data', 'variabl', 'develop', 'accuraci', 'error', 'estim']",213138,Other,Methods,Modeling & forecasting,Model
+213139,"Resilience, Community resilience","['communiti', 'resili', 'social', 'local', 'particip', 'interview', 'knowledg', 'build', 'resid', 'percept']",213139,Intervention option,Developing community resilience,Community resilience,Resilience
+213140,"Temperature, Ambient temperature","['temperatur', 'effect', 'ambient', 'daili', 'mean', 'percentil', 'high', 'nonlinear', 'associ', 'minimum']",213140,Exposure,Heat,Ambient temperature,Temperature
+213141,"Heatwave, Heatwaves","['heatwav', 'definit', 'dure', 'intens', 'day', 'durat', 'excess', 'period', 'warn', 'impact']",213141,Exposure,Heat,Heatwaves,Heatwave
+213142,"Viral, Viral diseases","['transmiss', 'outbreak', 'virus', 'wnv', 'epidem', 'zika', 'vector', 'spread', 'human', 'chikungunya']",213142,Health impact,Infectious,Viral diseases,Viral
+213143,"Water, Drinking water quality","['water', 'drink', 'sourc', 'suppli', 'contamin', 'qualiti', 'groundwat', 'sanit', 'sampl', 'coli']",213143,Health impact,WASH,Drinking water quality,Water
+213145,"Temporal, Temporal analyses","['day', 'lag', 'associ', 'daili', 'effect', 'week', 'cumul', 'model', 'nonlinear', 'increas']",213145,Other,Methods,Temporal analyses,Temporal
+213146,"Seasonality, Seasonality ","['season', 'winter', 'summer', 'variat', 'dure', 'pattern', 'spring', 'dri', 'peak', 'raini']",213146,Exposure,General seasonality & weather,Seasonality,Seasonality
+213147,"Birth, Birth & pregnancy","['birth', 'preterm', 'pregnanc', 'gestat', 'women', 'matern', 'weight', 'week', 'deliveri', 'trimest']",213147,Health impact,Maternal & child health,Birth & pregnancy,Birth
+213149,"Extreme weather, Extreme weather events","['extrem', 'event', 'weather', 'precipit', 'frequenc', 'condit', 'increas', 'day', 'intens', 'impact']",213149,Exposure,Extreme precipitation & flooding,Extreme weather events,Extreme weather
+213151,"Farmer, Farmers & agriculture","['farmer', 'crop', 'agricultur', 'farm', 'product', 'percept', 'yield', 'pest', 'smallhold', 'rice']",213151,Health impact,Food & nutrition,Farmers & agriculture,Farmer
+213153,"Ozone, Emissions (ozone)","['ozon', 'concentr', 'ppb', 'nox', 'tropospher', 'precursor', 'surfac', 'voc', 'groundlevel', 'nitrogen']",213153,Exposure,Emissions,Emissions (ozone),Ozone
+213154,"Meteorology, Meteorological variables","['meteorolog', 'humid', 'correl', 'wind', 'factor', 'pressur', 'relat', 'speed', 'weather', 'atmospher']",213154,Exposure,General seasonality & weather,Meteorological variables,Meteorology
+213157,"Fire, Wildfires","['fire', 'wildfir', 'smoke', 'burn', 'forest', 'biomass', 'wildland', 'impact', 'qualiti', 'plume']",213157,Exposure,Drought,Wildfires,Fire
+213158,"Vulnerability, Vulnerability","['vulner', 'social', 'hazard', 'indic', 'index', 'popul', 'livelihood', 'capac', 'assess', 'econom']",213158,Mediating pathways,Social vulnerability,Vulnerability,Vulnerability
+213160,"RSV, Respiratory viruses","['infect', 'rsv', 'respiratori', 'virus', 'preval', 'rate', 'syncyti', 'detect', 'viral', 'tract']",213160,Health impact,Respiratory,Respiratory viruses,RSV
+213161,"Patients, Patients","['patient', 'acut', 'medic', 'clinic', 'care', 'day', 'pressur', 'number', 'diabet', 'admit']",213161,Health impact,Health system demand,Patients,Patients
+213162,"Child, Child health","['children', 'child', 'age', 'school', 'childhood', 'parent', 'year', 'pneumonia', 'stunt', 'among']",213162,Health impact,Maternal & child health,Child health,Child
+213164,"Symptom, Symptoms","['symptom', 'depress', 'associ', 'respiratori', 'posttraumat', 'score', 'particip', 'report', 'parent', 'pts']",213164,Other,Methods,Symptoms,Symptom
+213165,"PAH, Polycyclic aromatic hydrocarbons ","['pah', 'sourc', 'combust', 'aromat', 'hydrocarbon', 'polycycl', 'sampl', 'cancer', 'burn', 'biomass']",213165,Exposure,Emissions,PAH,PAH
+213166,"Warming, Increasing temperature","['degre', 'increas', 'temperatur', 'threshold', 'warm', 'maximum', 'abov', 'mean', 'per', 'averag']",213166,Exposure,Heat,Increasing temperatures,Warming
+213167,"Hurricane, Hurricanes","['hurrican', 'evacu', 'sandi', 'storm', 'katrina', 'new', 'recoveri', 'york', 'resid', 'damag']",213167,Exposure,Extreme precipitation & flooding,Hurricanes,Hurricane
+213168,"Spatial, Spatial analyses","['spatial', 'area', 'region', 'distribut', 'map', 'cluster', 'use', 'environment', 'geograph', 'data']",213168,Other,Methods,Spatial analyses,Spatial
+213169,"Adaptation, Adaptation","['adapt', 'strategi', 'plan', 'polici', 'capac', 'climat', 'chang', 'govern', 'develop', 'local']",213169,Intervention option,Policy & practice,Adaptation,Adaptation
+213170,"Risk, Risk assessment & risk perception","['risk', 'factor', 'percept', 'hazard', 'assess', 'high', 'relat', 'increas', 'map', 'higher']",213170,Other,Methods,Risk assessment & risk perception,Risk
+213171,"DTR, Diurnal temperature range","['dtr', 'diurnal', 'effect', 'rang', 'childhood', 'elder', 'nonaccident', 'modifi', 'hefei', 'nonlinear']",213171,Exposure,Heat,Diurnal temperature range,DTR
+213172,"Mental, Mental health & PTSD","['mental', 'ptsd', 'disord', 'depress', 'stress', 'posttraumat', 'psycholog', 'anxieti', 'survivor', 'health']",213172,Health impact,Mental health,Mental health & PTSD,Mental
+213173,"Drought, Drought","['drought', 'impact', 'veget', 'sever', 'agricultur', 'index', 'vhi', 'shock', 'rural', 'region']",213173,Exposure,Drought,Drought,Drought
+213174,"Spores, Fungal spores","['spore', 'fungal', 'airborn', 'alternaria', 'cladosporium', 'fungi', 'concentr', 'allergen', 'bioaerosol', 'type']",213174,Health impact,Respiratory,Fungal spores,Spores
+213175,"Suicide, Suicide","['suicid', 'associ', 'rate', 'attempt', 'male', 'men', 'hang', 'adjust', 'sunshin', 'studi']",213175,Health impact,Mental health,Suicide,Suicide
+213176,"Dust storm, Dust storms","['dust', 'storm', 'desert', 'sourc', 'event', 'asian', 'saharan', 'miner', 'aerosol', 'road']",213176,Exposure,Drought,Dust storms,Dust storm
+213177,"Death, Death","['death', 'caus', 'excess', 'estim', 'attribut', 'fatal', 'year', 'number', 'rate', 'prematur']",213177,Health impact,All-cause mortality,Death,Death
+213178,"Thermal stress, Thermal stress & comfort","['thermal', 'stress', 'comfort', 'index', 'indic', 'utci', 'pet', 'wbgt', 'condit', 'physiolog']",213178,Health impact,Chronic,Thermal stress & comfort,Thermal stress
+213179,"RCP, Greenhouse pathways","['scenario', 'project', 'rcp', 'futur', 'pathway', 'increas', 'simul', 'popul', 'global', 'model']",213179,Intervention option,Mitigation co-benefits,Greenhouse pathways,RCP
+213180,"Cholera, Cholera","['cholera', 'outbreak', 'epidem', 'nino', 'vibrio', 'rainfal', 'haiti', 'enso', 'bangladesh', 'sanit']",213180,Health impact,Infectious,Cholera,Cholera
+213181,"In-/out-door, Indoor/outdoor (pollution & heat)","['indoor', 'outdoor', 'home', 'build', 'hous', 'ventil', 'environ', 'school', 'humid', 'measur']",213181,Mediating pathways,Geographic exposure,Building design,In-/out-door
+213182,"Cold, Cold & extreme temperatures","['cold', 'spell', 'hot', 'wave', 'extrem', 'cvd', 'winter', 'effect', 'attribut', 'coldrel']",213182,Exposure,Heat,Cold & extreme temperatures,Cold
+213183,"Asthma, Asthma","['asthma', 'childhood', 'exacerb', 'allerg', 'rhiniti', 'thunderstorm', 'associ', 'smoke', 'asthmat', 'preval']",213183,Health impact,Respiratory,Asthma,Asthma
+213184,"Injury, Occupational injury","['injuri', 'worker', 'occup', 'work', 'accid', 'workplac', 'safeti', 'wbgt', 'ill', 'workrel']",213184,Health impact,Occupational health & injury,Occupational injury,Injury
+213185,"Exposure, Exposure","['exposur', 'associ', 'estim', 'ambient', 'increas', 'person', 'shortterm', 'adjust', 'studi', 'use']",213185,Other,Methods,Exposure,Exposure
+213186,"Rainfall, Monthly rainfall","['month', 'rainfal', 'period', 'correl', 'variabl', 'trend', 'mean', 'averag', 'precipit', 'maximum']",213186,Exposure,Precipitation variabilty,Montly rainfall,Rainfall
+213187,"Household, Rural households","['household', 'stove', 'rural', 'fuel', 'cook', 'survey', 'use', 'incom', 'shock', 'biomass']",213187,Mediating pathways,Geographic exposure,Rural households,Household
+213188,"Age & sex, Age & sex","['age', 'preval', 'group', 'year', 'women', 'among', 'older', 'adult', 'studi', 'particip']",213188,Mediating pathways,Demographic vulnerability,Age & Sex,Age & sex
+213189,"Leptospirosis, Leptospirosis","['leptospirosi', 'leptospira', 'human', 'anim', 'rodent', 'serovar', 'dog', 'zoonot', 'outbreak', 'rainfal']",213189,Health impact,Infectious,Leptospirosis,Leptospirosis
+213190,"Energy, Energy policy & co-benefits","['energi', 'cost', 'polici', 'benefit', 'cobenefit', 'mitig', 'electr', 'reduc', 'reduct', 'econom']",213190,Intervention option,Mitigation co-benefits,Energy policy & co-benefits,Energy
+213191,"China, China","['china', 'provinc', 'haze', 'hfrs', 'chines', 'region', 'control', 'north', 'guangzhou', 'mainland']",213191,Mediating pathways,Geographic exposure,China,China
+213150,"Particulates, Particle concentration (air)","['concentr', 'particl', 'site', 'aerosol', 'mass', 'measur', 'dure', 'sourc', 'carbon', 'averag']",213150,Exposure,Emissions,Particulate concentration (air),Particulates
+213144,"Public health, Public health","['health', 'public', 'review', 'impact', 'research', 'system', 'environment', 'literatur', 'care', 'outcom']",213144,Health impact,Health system demand,Public health ,Public health
+213159,"Health facilities, Visit to health care facilities","['visit', 'emerg', 'outpati', 'depart', 'respiratori', 'room', 'increas', 'hospit', 'associ', 'daili']",213159,Health impact,Health system demand,Visits to health care facilities,Health facilities
+213163,"Incidence, Disease incidence","['incid', 'rate', 'provinc', 'per', 'irr', 'annual', 'year', 'correl', 'week', 'increas']",213163,Other,Methods,Disease incidence,Incidence
+213136,"Hospital, Hospital admissions","['hospit', 'admiss', 'respiratori', 'associ', 'ami', 'pneumonia', 'daili', 'cardiovascular', 'copd', 'increas']",213136,Health impact,Health system demand,Hospital admissions,Hospital
+213156,"Influenza, Influenza","['influenza', 'epidem', 'week', 'activ', 'virus', 'pandem', 'vaccin', 'ili', 'surveil', 'temper']",213156,Health impact,Infectious,Influenza,Influenza
+213152,"Food, Food insecurity","['food', 'insecur', 'secur', 'hunger', 'nutrit', 'agricultur', 'product', 'africa', 'price', 'countri']",213152,Health impact,Food & nutrition,Food insecurity,Food
+213148,"HFMD, Hand-foot-and-mouth disease","['hfmd', 'foot', 'mouth', 'hand', 'factor', 'diseas', 'meteorolog', 'childhood', 'humid', 'relat']",213148,Health impact,Infectious,HFMD,HFMD
+213155,"Stroke, Stroke","['stroke', 'ischem', 'hemorrhag', 'associ', 'subtyp', 'day', 'onset', 'ich', 'sah', 'cerebrovascular']",213155,Health impact,Chronic,Stroke,Stroke
