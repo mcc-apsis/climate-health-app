@@ -36,7 +36,7 @@ external_stylesheets = [
 if "/var/www" in abspath:
     p_prefix = '/climate-health/'
     fig_limit = 100
-    topic_src = 'https://cemac.github.io/DIFID/ui/#'
+    topic_src = 'https://cemac.github.io/DIFID/ui/'
 else:
     p_prefix = '/'
     fig_limit = 2
@@ -240,7 +240,7 @@ logos = [
 logo_cols = [dbc.Col([html.Img(src=x, height="128em")], lg=4, className="m-4") for x in logos]
 
 topic_content = html.Div([
-    html.Iframe(src="http://0.0.0.0:8000/ui/",width="100%",height="1000px")
+    html.Iframe(src=topic_src,width="100%",height="1000px")
 ])
 
 
