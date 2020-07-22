@@ -240,7 +240,7 @@ logos = [
 logo_cols = [dbc.Col([html.Img(src=x, height="128em")], lg=4, className="m-4") for x in logos]
 
 topic_content = html.Div([
-    html.Iframe(src=topic_src,width="100%",height="1000px")
+    html.Iframe(src=topic_src,width="100%",height="800px")
 ])
 
 
@@ -304,8 +304,9 @@ app.layout = html.Div([
         dbc.Container([
             html.H2(children='Climate and Health studies in DfID priority countries',id="regions-map"),
             html.Div(children='''
-                Select a group of studies by dragging a box around them on the maps below.
-                Click on the topic bars to filter by topic.
+                Select a group of studies by clicking and dragging a box around them on the maps below.
+                Click on the topic bars to filter by topic, and use the blue slider to view more or less
+                common topics in each region.
             '''),
         ], className="sectionHeading", id="regions-heading", fluid=True),
         ## SECTIONCONTENT
