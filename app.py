@@ -40,7 +40,8 @@ if "/var/www" in abspath:
 else:
     p_prefix = '/'
     fig_limit = 2
-    topic_src = 'http://0.0.0.0:8000/ui'
+    topic_src = 'https://cemac.github.io/DIFID/ui/'
+    #topic_src = 'http://0.0.0.0:8000/ui'
 
 app = dash.Dash(
     __name__,
@@ -68,7 +69,7 @@ CONTENT_STYLE = {
 }
 
 
-
+# LOAD DATA
 
 dfid_topics = pd.read_csv('data/dfid_topics.csv')
 dt_sum = pd.read_csv('data/dt_sum.csv')
@@ -76,42 +77,72 @@ topic_df = pd.read_csv('data/topic_info.csv')
 dfid_topics["ldev"] = np.log(dfid_topics["deviation"])
 country_shapes = pd.read_csv('data/country_shapes.csv')
 dts = pd.read_csv('data/doctopic.csv')
-df = pd.read_csv("data/dfid_df.csv")
+#df = pd.read_csv("data/dfid_df.csv")
+df = pd.read_csv("data/df_places.csv")
+doc_df = pd.read_csv("data/doc_information.csv")
 
-impact_driver_map = pd.read_csv('data/impact_driver_map.csv')
+##############
+## Table data
+
+table_df = doc_df.merge(
+    dts.pivot(index="doc_id",columns="topic_id",values="score").fillna(0),
+    left_on="id",
+    right_on="doc_id"
+)
+
 
 with open("data/dfid.geojson", "r") as f:
     geojson = json.load(f)
 
-with open("data/driver_map.pickle", "rb") as f:
-    m, xticks, yticks = pickle.load(f)
+heat_dfs = [
+    pd.read_csv('data/impact_driver_map.csv'),
+    pd.read_csv('data/impact_income_map.csv')
+]
+
+m = []
+xticks = []
+yticks = []
+
+heatfiles = [
+    "data/impact_driver_map.pickle",
+    "data/impact_income_map.pickle"
+]
+
+pathway_names = [
+    "Climate and health pathways",
+    "Impact and income categories"
+]
+
+for fname in heatfiles:
+    with open(fname, "rb") as f:
+        p = pickle.load(f)
+        m.append(p[0])
+        xticks.append(p[1])
+        yticks.append(p[2])
+
 
 region_groups = [
     ["Western Africa"],
     ["Eastern Africa", "Northern Africa","Middle Africa"],
     ["Western Asia"],
-    ["Central Asia"],
-    ["Southern Asia"],
+    ["Central Asia","Southern Asia"],
     ["South-eastern Asia"]
-
 ]
 
 labels = [
     "Western Africa",
-    "Middle, Eastern and \nNorthern Africa",
+    "Middle, Eastern and Northern Africa",
     "Western Asia",
-    "Central Asia",
-    "Southern Asia",
+    "Central and Southern Asia",
     "South-eastern Asia"
 ]
 
 extents = [
-    [-15,5,0,20],
-    [5,55,-30,30],
-    [30,60,10,40],
-    [66,81,32.5,47.5],
-    [59,99,3,43],
-    [90,145,-20,30]
+    [-20,10,0,20],
+    [0,60,-30,30],
+    [25,65,10,40],
+    [54,104,3,43],
+    [85,150,-20,30]
 ]
 
 maps = []
@@ -123,6 +154,7 @@ t0 = time.time()
 for i, (regions, extent, label) in enumerate(zip(region_groups, extents,labels)):
     #print(i, time.time()-t0)
     fig, label_n = draw_map(regions, extent, geojson, country_shapes, df, label)
+
     titles.append(label_n)
 
     maps.append(fig)
@@ -143,14 +175,7 @@ for i, (regions, extent, label) in enumerate(zip(region_groups, extents,labels))
         break
 
 
-##############
-## Table data
 
-table_df = df.merge(
-    dts.pivot(index="doc_id",columns="topic_id",values="score").fillna(0),
-    left_on="id",
-    right_on="doc_id"
-)
 
 sidebar = html.Div(
     [
@@ -173,7 +198,7 @@ sidebar = html.Div(
                 columns=[
                     {"name": "title", "id":"title"},
                     {"name": "DOI", "id": "DOI", "presentation": "markdown"},
-                    {"name": "place", "id": "word"}
+                    {"name": "place", "id": "place_name"}
                 ],
                 data=table_df.to_dict('records'),
                 page_action="native",
@@ -244,27 +269,63 @@ topic_content = html.Div([
 ])
 
 
-pathway_content = html.Div([
-    dbc.Container([
-        dbc.Row([
-            html.H3("Climate and health pathways",className="m-5"),
-        ]),
+pathway_content = []
+for i, name in enumerate(pathway_names):
+    pathway_content.append(
+        html.Div([
+            dbc.Container([
+                dbc.Row([
+                    html.H3(name)
+                ])
+            ]),
         dbc.Row([
             html.P([
-                html.Button('No normalisation',id="bnorm-1", className="btn btn-outline-dark m-2"),
-                html.Button('Normalise by column sum',id="bnorm-2", className="btn btn-outline-dark m-2"),
-                html.Button('Normalise by row sum',id="bnorm-3", className="btn btn-outline-dark m-2"),
+                html.Button('No normalisation',id={"type": "bnorm-1", "index":i} , className="btn btn-outline-dark m-2"),
+                html.Button('Normalise by column sum',id={"type": "bnorm-2", "index":i}, className="btn btn-outline-dark m-2"),
+                html.Button('Normalise by row sum',id={"type": "bnorm-3", "index":i}, className="btn btn-outline-dark m-2"),
             ])
         ]),
-        dbc.Row([
-            dbc.Col([
-                dcc.Graph(
-                    id="heatmap_1",
-                    figure=draw_heatmap(m, xticks, yticks)),
-            ])
-        ]),
-    ],className="mb-5")
-], style=CONTENT_STYLE)
+            dbc.Row([
+                dbc.Col([
+                    dcc.Graph(
+                        id={"type": "heatmap", "index": i},
+                        figure=draw_heatmap(m[i], xticks[i], yticks[i])),
+                ])
+            ]),
+        ], style=CONTENT_STYLE)
+    )
+
+#pathway_content = html.Div(pathway_content)
+
+
+# pathway_content = html.Div([
+#     dbc.Container([
+#         dbc.Row([
+#             html.H3("Climate and health pathways",className="m-5"),
+#         ]),
+#         dbc.Row([
+#             html.P([
+#                 html.Button('No normalisation',id="bnorm-1", className="btn btn-outline-dark m-2"),
+#                 html.Button('Normalise by column sum',id="bnorm-2", className="btn btn-outline-dark m-2"),
+#                 html.Button('Normalise by row sum',id="bnorm-3", className="btn btn-outline-dark m-2"),
+#             ])
+#         ]),
+#         dbc.Row([
+#             dbc.Col([
+#                 dcc.Graph(
+#                     id={"type": "heatmap", "index": 1},
+#                     figure=draw_heatmap(m, xticks, yticks)),
+#             ])
+#         ]),
+#         dbc.Row([
+#             dbc.Col([
+#                 dcc.Graph(
+#                     id={"type": "heatmap", "index": 2},
+#                     figure=draw_heatmap(m2, xticks2, yticks2)),
+#             ])
+#         ]),
+#     ],className="mb-5")
+# ], style=CONTENT_STYLE)
 
 pathways_text = dcc.Markdown("""
 
@@ -275,7 +336,14 @@ The following "Heatmaps" show the number of documents in each combination of top
 Click on any cell to see the documents which score highly for both topics.
 
 The cells are coloured by absolute numbers (larger numbers = darker colouring).
-Click on the normalise buttons to colour by row proportion or column proportion
+
+Click on the normalise buttons to colour by row sum or column sum.
+Normalising by row proportion would mean colouring each according to its value
+as a proportion of the sum of values from that row.
+
+For example, Extreme events & floods accounts for a large proportion of mental health studies,
+although the combination of mental health and extreme events and floods only accounts for a
+rather small proportion of all studies.
 """)
 
 app.layout = html.Div([
@@ -321,9 +389,9 @@ app.layout = html.Div([
             html.H2(children='Climate and Health Pathways',id="pathways"),
             html.Div(pathways_text),
         ], className="sectionHeading", id="pathways-heading", fluid=True),
-        html.Div(children=[
+        html.Div(children=#[
             pathway_content
-        ]),
+        ),
         ####### SECTION
         ## SECTIONTITLE
         dbc.Container([
@@ -342,22 +410,28 @@ app.layout = html.Div([
 ])
 
 @app.callback(
-    [Output("heatmap_1","figure")],
+    [Output({'type': 'heatmap', 'index': MATCH},"figure")],
     [
-        Input('bnorm-1','n_clicks'),
-        Input('bnorm-2','n_clicks'),
-        Input('bnorm-3','n_clicks')
-    ]
+        Input({'type': 'bnorm-1', 'index': MATCH},'n_clicks'),
+        Input({'type': 'bnorm-2', 'index': MATCH},'n_clicks'),
+        Input({'type': 'bnorm-3', 'index': MATCH},'n_clicks')
+    ],
+    [State({'type': 'bnorm-1', 'index': MATCH}, 'id')],
 )
-def bnorm_heatmap(btn1, btn2, btn3):
+def bnorm_heatmap(btn1, btn2, btn3, id):
+    i = id['index']
     changed_id = [p['prop_id'] for p in dash.callback_context.triggered][0]
+    if changed_id==".":
+        i = id['index']
+        return [draw_heatmap(m[i], xticks[i], yticks[i],-1)]
+    index = ast.literal_eval(changed_id.split('.')[0])['index']
     if "bnorm-1" in changed_id:
-        return [draw_heatmap(m, xticks, yticks,-1)]
+        return [draw_heatmap(m[i], xticks[i], yticks[i], -1)]
     elif "bnorm-2" in changed_id:
-        return [draw_heatmap(m, xticks, yticks,0)]
+        return [draw_heatmap(m[i], xticks[i], yticks[i], 0)]
     elif "bnorm-3" in changed_id:
-        return [draw_heatmap(m, xticks, yticks,1)]
-    return [draw_heatmap(m, xticks, yticks,-1)]
+        return [draw_heatmap(m[i], xticks[i], yticks[i], 1)]
+    return [draw_heatmap(m[i], xticks[i], yticks[i], -1)]
 
 @app.callback(
     [
@@ -367,7 +441,7 @@ def bnorm_heatmap(btn1, btn2, btn3):
     [
         Input({'type': 'bar', 'index': ALL}, 'clickData'),
         Input({'type': 'map', 'index': ALL}, 'selectedData'),
-        Input("heatmap_1", 'clickData')
+        Input({'type': 'heatmap', 'index': ALL}, 'clickData')
     ],
 )
 def bar_click(clickData, selectedData, heatmapClick):
@@ -379,13 +453,15 @@ def bar_click(clickData, selectedData, heatmapClick):
 
         rel_df = table_df
 
-        if "heatmap_1" in ctx.triggered[0]['prop_id']:
-            t1 = heatmapClick['points'][0]['x']
-            t2 = heatmapClick['points'][0]['y']
+        if "heatmap" in ctx.triggered[0]['prop_id']:
+            i = ast.literal_eval(ctx.triggered[0]['prop_id'].split('.')[0])['index']
+            sub_df = heat_dfs[i]
+            t1 = heatmapClick[i]['points'][0]['x']
+            t2 = heatmapClick[i]['points'][0]['y']
             thresh=0.015
-            sub_df = impact_driver_map[
-                (impact_driver_map[t1]>thresh) &
-                (impact_driver_map[t2]>thresh)
+            sub_df = sub_df[
+                (sub_df[t1]>thresh) &
+                (sub_df[t2]>thresh)
             ]
             sub_df["tp"] = sub_df[t1]*sub_df[t2]
 
@@ -402,15 +478,17 @@ def bar_click(clickData, selectedData, heatmapClick):
         if clickData[idx] is not None:
             t = clickData[idx]["points"][0]["y"]
             topic = topic_df[topic_df["short_title"]==t]["id"].values[0]
+            docids = df.loc[df['DFID region']==labels[idx],"doc_id"]
             rel_df = table_df[
                 (table_df[topic]>0.01) &
-                (table_df["DFID region"]==labels[idx])
+                (table_df["id"].isin(docids))
             ].sort_values(topic,ascending=False)
         if selectedData[idx] is not None:
 
             ids = [x["id"] for x in selectedData[idx]["points"] if "id" in x]
+            docids = df.loc[df['place_doc_id'].isin(ids),"doc_id"]
             rel_df = rel_df[
-                (rel_df['place_doc_id'].isin(ids))
+                (rel_df['id'].isin(docids))
             ]
         return [rel_df.to_dict('records'), t]
     return [table_df.to_dict('records'), t]
@@ -429,14 +507,15 @@ def update_figure(n, selectedData, i):
     cr = dfid_topics[dfid_topics["DFID region"]==labels[i]].head(n).tail(5)
     if selectedData is not None:
         ids = [x["id"] for x in selectedData["points"] if "id" in x]
+        docids = df.loc[df['place_doc_id'].isin(ids),"doc_id"]
         rel_df = table_df[
-            (table_df['place_doc_id'].isin(ids))
+            (table_df['id'].isin(docids))
         ]
         sel_df = df
         sel_df["subset"] = 0
-        sel_df.loc[sel_df["id"].isin(rel_df["doc_id"]),"subset"]=1
-        gdt = (sel_df[["doc_id","subset"]]
-               .merge(dts)
+        sel_df.loc[sel_df["id"].isin(rel_df["id"]),"subset"]=1
+        gdt = (sel_df[["id","subset"]]
+               .merge(dts, left_on="id",right_on="doc_id")
                .groupby(['topic_id','subset'])['score']
                .sum()
                .reset_index()
