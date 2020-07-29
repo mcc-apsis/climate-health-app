@@ -198,7 +198,7 @@ sidebar = html.Div(
                 columns=[
                     {"name": "title", "id":"title"},
                     {"name": "DOI", "id": "DOI", "presentation": "markdown"},
-                    {"name": "place", "id": "place_name"}
+                    {"name": "place", "id": "word"}
                 ],
                 data=table_df.to_dict('records'),
                 page_action="native",
