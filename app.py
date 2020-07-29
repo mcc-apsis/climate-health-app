@@ -463,6 +463,7 @@ def bar_click(clickData, selectedData, heatmapClick):
                 (sub_df[t1]>thresh) &
                 (sub_df[t2]>thresh)
             ]
+
             sub_df["tp"] = sub_df[t1]*sub_df[t2]
 
             rel_df = (
