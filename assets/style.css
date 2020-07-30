@@ -19,7 +19,17 @@ body {
 .sectionHeading {
   padding: 60px;
   width: 100%;
-  background-color: rgba(125, 125, 125, 0.2);
+  /* margin-right: 42rem; */
+  /* background-color: rgba(125, 125, 125, 0.2); */
+}
+
+.cbutton {
+  opacity: 0.4;
+}
+
+.clicked {
+  opacity: 0.9 !important;
+  border: 2px solid black;
 }
 
 .masthead::after {

@@ -18,11 +18,12 @@ import pickle
 ########################################################################
 ## Bars
 
-def draw_bar(cr):
+def draw_bar(cr, sbar=None):
     fig = px.bar(
         cr, y="short_title", x="ldev",
         #text="short_title"
     )
+
 
     fig.add_trace(go.Scatter(
         x=np.where(cr.ldev>0,-0.25,0.25),
@@ -37,7 +38,7 @@ def draw_bar(cr):
         tickmode="array",
         tickvals=np.log([0.125,0.25,0.5,1,2,4,8]),
         ticktext=["1/8","1/4","1/2","1","2","4","8"],
-        title_text="region share/world share"
+        title_text="region share compared to world share"
     )
     fig.update_layout(
         margin=go.layout.Margin(
@@ -49,18 +50,32 @@ def draw_bar(cr):
          xaxis_range=[
             min(np.log(0.125),cr.ldev.min()),max(np.log(8),cr.ldev.max())
         ],
+
         showlegend=False
     )
     fig.update_yaxes(
         showticklabels=False,
-        title_text=""
+        title_text="",
+        categoryorder='array',
+        categoryarray=cr.short_title
     )
+
+    marker_line_width = [1] * cr.shape[0]
+    marker_opacity = [0.5] * cr.shape[0]
+    if sbar is not None:
+        for i in sbar:
+            marker_line_width[i] = 3
+            marker_opacity[i] = 0.8
+
 
     fig.update_traces(
         #marker_opacity=0.1,
         marker_line_color="black",
-        marker_line_width=1,
-        marker_color="white"
+        marker_line_width=marker_line_width,
+        marker_opacity=marker_opacity,
+        marker_color=cr.color,
+        hoverinfo="skip"
+        #marker_color="white"
     )
     return fig
 
@@ -69,7 +84,7 @@ def draw_bar(cr):
 
 def draw_map(regions, extent, geojson, country_shapes, df, label):
     cs = country_shapes.loc[
-        (country_shapes['DFID priority'] == 1) &
+        #(country_shapes['DFID priority'] == 1) &
         (country_shapes['UN statistical'].isin(regions))
     ]
 
@@ -100,6 +115,7 @@ def draw_map(regions, extent, geojson, country_shapes, df, label):
 
     fig.update_layout(
         #height=500,
+        clickmode='event+select',
         margin=go.layout.Margin(
             l=0,
             r=0,
@@ -133,7 +149,7 @@ def draw_map(regions, extent, geojson, country_shapes, df, label):
 ### heatmap
 import plotly.figure_factory as ff
 
-def draw_heatmap(m, xticks, yticks,norm=-1):
+def draw_heatmap(m, xticks, yticks,norm=-1, clickData=None):
     if norm > -1:
         z = m/m.sum(axis=norm,keepdims=True)
     else:
@@ -141,7 +157,9 @@ def draw_heatmap(m, xticks, yticks,norm=-1):
     heatmap = ff.create_annotated_heatmap(
         z,x=xticks,y=yticks,
         annotation_text=m,
-        colorscale=px.colors.sequential.YlGnBu
+        colorscale=px.colors.sequential.YlGnBu,
+        xgap=3,
+        ygap=3
     )
 
     heatmap.update_layout(
@@ -153,13 +171,36 @@ def draw_heatmap(m, xticks, yticks,norm=-1):
             t=10
         ),
         dragmode="select",
+
     )
 
     heatmap.update_xaxes(
-        title_text="Climate driver"
+        title_text="Climate driver",
+        showgrid=False
     )
     heatmap.update_yaxes(
-        title_text="Health impact"
+        title_text="Health impact",
+        showgrid=False
     )
+
+    if clickData is not None:
+    # Add shapes
+        x0 = xticks.index(clickData["points"][0]["x"]) / len(xticks)
+        x1 = x0 + 1 / len(xticks)
+        y0 = yticks.index(clickData["points"][0]["y"]) / len(yticks)
+        y1 = y0 + 1 / len(yticks)
+
+        shape = dict(
+            type="rect",
+            xref="paper",
+            yref="paper",
+            x0=x0,
+            x1=x1,
+            y0=y0,
+            y1=y1,
+            line=dict(color="#ff6347"),
+        )
+
+        heatmap.add_shape(shape)
 
     return heatmap
