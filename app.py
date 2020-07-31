@@ -15,6 +15,8 @@ import pandas as pd
 import json
 import pickle
 
+import instructions
+
 from graphs import draw_bar, draw_map, draw_heatmap
 
 abspath = os.path.abspath(__file__)
@@ -39,9 +41,9 @@ if "/var/www" in abspath:
     topic_src = 'https://cemac.github.io/DIFID/ui/'
 else:
     p_prefix = '/'
-    fig_limit = 100
-    #topic_src = 'https://cemac.github.io/DIFID/ui/'
-    topic_src = 'http://0.0.0.0:8000/ui'
+    fig_limit = 1
+    topic_src = 'https://cemac.github.io/DIFID/ui/'
+    #topic_src = 'http://0.0.0.0:8000/ui'
 
 app = dash.Dash(
     __name__,
@@ -52,25 +54,7 @@ app = dash.Dash(
 
 server = app.server
 
-SIDEBAR_STYLE = {
-    "position": "fixed",
-    #"bottom": 0,
-    "top": "100vh",
-    "right": 0,
-    "width": "40rem",
-    "padding": "4rem 1rem",
-    "background-color": "#f8f9fa",
-    "margin": "2em",
-    # "border": "1px solid black"
-}
-
-CONTENT_STYLE = {
-    "margin-right": "40rem",
-    "margin-left": "2rem",
-    "padding": "2rem 1rem",
-}
-
-
+background_color = "#f9f9f9"
 # LOAD DATA
 
 dfid_topics = pd.read_csv('data/dfid_topics.csv')
@@ -122,6 +106,7 @@ for fname in heatfiles:
         xticks.append(p[1])
         yticks.append(p[2])
 
+colors = ["#fed9a6","#fbb4ae","#ccebc5","#b3cde3","#bdbdbd"]
 meta_topics = ["Health impact", "Exposure", "Intervention option", "Mediating pathways","Other"]
 
 region_groups = [
@@ -141,145 +126,30 @@ labels = [
 ]
 
 extents = [
-    [-20,10,0,20],
+    [-20,12,-2.5,27.5],
     [0,60,-30,30],
-    [25,65,10,40],
-    [54,104,3,48],
+    [25,65,10,45],
+    [45,104,3,48],
     [85,150,-20,30]
 ]
 
-maps = []
-bars = []
-sliders = []
-
-titles = []
 t0 = time.time()
-for i, (regions, extent, label) in enumerate(zip(region_groups, extents,labels)):
-    #print(i, time.time()-t0)
-    fig, label_n = draw_map(regions, extent, geojson, country_shapes, df, label)
 
-    titles.append(label_n)
+i = 0
 
-    maps.append(fig)
-
-    cr = dfid_topics[dfid_topics["DFID region"]==label].sort_values('ldev').reset_index()
-    bars.append(draw_bar(cr.tail(5)))
-
-    sliders.append(dcc.Slider(
-        id={"type":"slider","index": i},
-        min=5,
-        max=cr.shape[0],
-        value=cr.shape[0],
-        step=1,
-        vertical=True
-    ))
-
-    if i >= fig_limit:
-        break
-
-
-
-
-sidebar = html.Div(
-    [
-        html.H2("Selection"),
-        html.H3("Topics"),
-        html.Div([
-            html.Span("No topics selected", id="topic-selection"),
-            html.Button("Clear topics", id="clear-topics", className="btn btn-outline-dark m-2")
-        ]),
-        html.H3("Documents"),
-        html.Div(children=[
-            dash_table.DataTable(
-                id="doc-table",
-                style_cell={
-                    'whiteSpace': 'normal',
-                    'maxHeight': '3em',
-                    'maxWidth': '8em',
-                    'textOverflow': 'ellipsis'
-                },
-                filter_action="native",
-                sort_action="native",
-                sort_mode="multi",
-                columns=[
-                    {"name": "title", "id":"title"},
-                    {"name": "place", "id": "word"},
-                    {"name": "DOI", "id": "DOI", "presentation": "markdown"}
-                ],
-                data=table_df.to_dict('records'),
-                page_action="native",
-                page_current= 0,
-                page_size= 5,
-            )
-        ])
-    ],
-    style=SIDEBAR_STYLE,
-    id="sidebar"
+map, mapTitle = draw_map(
+    region_groups[i], extents[i], geojson, country_shapes, df, labels[i]
 )
 
-navbar = html.Nav(
-    [
-        html.Ul([
-            html.Li(html.A("Climate and Health", href="#", className="nav-link", id="nav-home"),className="nav-item"),
-            html.Li(html.A("Regions", href="#regions-map", className="nav-link", id="nav-regions"),className="nav-item"),
-            html.Li(html.A("Pathways", href="#pathways", className="nav-link", id="nav-pathways"), className="nav-item"),
-            html.Li(html.A("Topics", href="#topic-map",className="nav-link", id="nav-topics"),className="nav-item")
-        ], className="nav nav-pills")
-    ],
-    className="navbar fixed-top navbar-expand navbar-light bg-light justify-content-left",
-    id="navbar"
+cr = (
+    dfid_topics[dfid_topics["DFID region"]==labels[i]]
+    .sort_values('ldev')
+    .reset_index()
 )
 
+bar = draw_bar(cr)
 
 
-colors = ["#fed9a6","#fbb4ae","#ccebc5","#b3cde3","#bdbdbd"]
-
-graphs = []
-for i, fig in enumerate(maps):
-    bar_buttons = []
-    for j, meta_topic in enumerate(meta_topics):
-        bar_buttons.append(
-            html.Button(
-                meta_topic,
-                id={"type":f"barfilter-{j}","index":i},
-                style={"background-color": colors[j], "fontsize":"0.8em"},
-                className="btn btn-outline-dark m-1 p-1 cbutton"
-            )
-        )
-
-    graphs.append(
-        dbc.Container([
-            dbc.Row([
-                dbc.Col([
-                    html.H3(titles[i],className="m-5")
-                ], lg=6),
-                dbc.Col(
-                    bar_buttons, lg=4
-                )
-            ]),
-            dbc.Row([
-                dbc.Col([
-                    dcc.Graph(id={"type": "map", "index": i}, figure=maps[i]),
-                ],lg=6),
-                dbc.Col([
-                    dcc.Graph(id={"type":"bar","index": i}, figure=bars[i]),
-
-                ], lg=4),
-                dbc.Col(
-                    sliders[i],
-                    lg=1
-                )
-            ]),
-
-        ], className="mb-5")
-    )
-
-
-content = html.Div([
-    dbc.Container(
-        graphs
-    )
-], id="content")
 
 logos = [
     #'/assets/DfID.png',
@@ -290,299 +160,283 @@ logos = [
 
 logo_cols = [dbc.Col([html.Img(src=x, height="128em")], lg=4, className="m-4") for x in logos]
 
-topic_content = html.Div([
-    html.Iframe(src=topic_src,width="100%",height="800px")
-])
 
+header = dbc.Row(
+    [
+        dbc.Col(
+            html.Div()
+            ,
+        ),
+        dbc.Col(
+            html.Div(
+                html.H1("Climate and Health")
+            )
+            ,
+        ),
+        dbc.Col(
+            html.Div()
+            ,
+        )
+    ],
+    id="header",
+)
 
-pathway_content = []
-for i, name in enumerate(pathway_names):
-    pathway_content.append(
-        html.Div([
-            dbc.Container([
-                dbc.Row([
-                    html.H3(name)
-                ])
-            ]),
-        dbc.Row([
-            html.P([
-                html.Button('No normalisation',id={"type": "bnorm-1", "index":i} , className="btn btn-outline-dark m-2"),
-                html.Button('Normalise by column sum',id={"type": "bnorm-2", "index":i}, className="btn btn-outline-dark m-2"),
-                html.Button('Normalise by row sum',id={"type": "bnorm-3", "index":i}, className="btn btn-outline-dark m-2"),
-            ])
-        ]),
-            dbc.Row([
-                dbc.Col([
-                    dcc.Graph(
-                        id={"type": "heatmap", "index": i},
-                        figure=draw_heatmap(m[i], xticks[i], yticks[i])),
-                ], lg=10)
-            ]),
-        ])
+bar_buttons = []
+for j, meta_topic in enumerate(meta_topics):
+    bar_buttons.append(
+        html.Button(
+            meta_topic,
+            id=f"barfilter-{j}",
+            style={"background-color": colors[j], "font-size":"1rem"},
+            className="btn btn-outline-dark m-1 p-1 cbutton"
+        )
     )
 
-pathways_text = dcc.Markdown("""
 
-We grouped the topics above into broaders **climate drivers** and **health impacts** categories
 
-The following "Heatmaps" show the number of documents in each combination of topic.
+graph_text = dbc.Col([
+    html.P([
+        "Explore studies by the places and topics they mention ",
+        html.A("(more detail)", href="#collapseMap", style={"font-size": "1rem"}, **{"data-toggle": "collapse"})
+    ],className="lead"),
+    html.Div(
+        html.Div([
+            instructions.graph_instructions,
+            html.A("less detail", href="#collapseMap", **{"data-toggle": "collapse"})
+        ], className="card card-body"),
+        className="collapse", id="collapseMap"
+    )
+], className="mb-3 p-0")
 
-Click on any cell to see the documents which score highly for both topics.
+graphs = dbc.Row(
+    dbc.Col([
+        graph_text,
+        dbc.Row([
+            dbc.Col(
+                dcc.Dropdown(
+                    id = "region-select",
+                    options = [{"label":l, 'value':i} for i,l in enumerate(labels)],
+                    value=0
+                ), width=6
+            ),
+            dbc.Col(
+                ["Click to filter topics by type: "] + bar_buttons,
+                width=6
+            )
+        ]),
+        dbc.Row([
+            dbc.Col(dcc.Graph(id="map", figure=map), width=6),
+            dbc.Col(dcc.Graph(id="bar", figure=bar), width=6)
+        ])
 
-The cells are coloured by absolute numbers (larger numbers = darker colouring).
+    ]),
+    className="background-container"
+)
 
-Click on the normalise buttons to colour by row sum or column sum.
-Normalising by row proportion would mean colouring each according to its value
-as a proportion of the sum of values from that row.
+pathway_text = dbc.Col([
+    html.P([
+        "Explore studies in combinations of categories ",
+        html.A("(more detail)", href="#collapseHeatmap", style={"font-size": "1rem"}, **{"data-toggle": "collapse"})
+    ],className="lead"),
+    html.Div(
+        html.Div([
+            instructions.heatmap_instructions,
+            html.A("less detail", href="#collapseHeatmap", **{"data-toggle": "collapse"})
+        ], className="card card-body"),
+        className="collapse", id="collapseHeatmap"
+    )
+], className="mb-3")
 
-For example, Extreme events & floods accounts for a large proportion of mental health studies,
-although the combination of mental health and extreme events and floods only accounts for a
-rather small proportion of all studies.
-""")
+pathways = dbc.Row(
+    dbc.Col(
+        [
+            pathway_text,
+            dbc.Row(
+                dbc.Col([
+                    dbc.Row(dbc.Col(
+                        dcc.Dropdown(
+                            id="heatmap-select",
+                            options = [{'label': l, 'value':i} for i, l in enumerate(pathway_names)],
+                            value = 0
+                        ),className="mb-3"
+                    )),
+                    dbc.Row(dbc.Col([
+                        html.Button('No normalisation',id="bnorm-1" , className="btn btn-outline-dark m-2"),
+                        html.Button('Normalise by column sum',id="bnorm-2", className="btn btn-outline-dark m-2"),
+                        html.Button('Normalise by row sum',id="bnorm-3", className="btn btn-outline-dark m-2"),
+                    ]),className="mb-3" ),
+                    dbc.Row(dbc.Col(
+                        dcc.Graph(id="heatmap", figure=draw_heatmap(m[0],xticks[0],yticks[0]))
+                    ))
+                ])
+            ),
 
-app.layout = html.Div([
-    dcc.Store(id="memory"),
-    navbar,
-    html.Div([
-        html.Header([
-            dbc.Container([
+        ]
+    ),
+    className="background-container"
+)
+
+topic_text = dbc.Col([
+    html.P([
+        "Explore studies by the topic content ",
+        html.A("(more detail)", href="#collapseTopic", style={"font-size": "1rem"}, **{"data-toggle": "collapse"})
+    ],className="lead"),
+    html.Div(
+        html.Div([
+            instructions.heatmap_instructions,
+            html.A("less detail", href="#collapseTopic", **{"data-toggle": "collapse"})
+        ], className="card card-body"),
+        className="collapse", id="collapseTopic"
+    )
+], className="mb-3")
+
+topic_tab = dbc.Row(
+    dbc.Col(
+        [
+            topic_text,
+            html.Iframe(src=topic_src,width="100%",height="800px")
+        ]
+    ),
+    className="background-container"
+)
+
+def make_selection_box(id, tselect):
+    docTable = dash_table.DataTable(
+        id=id,
+        style_cell={
+            'font-family': 'Arial',
+            'whiteSpace': 'normal',
+            'maxHeight': '3em',
+            'maxWidth': '8em',
+            'textOverflow': 'ellipsis',
+            'backgroundColor': background_color,
+            'textAlign': 'left'
+        },
+        filter_action="native",
+        style_as_list_view=True,
+        columns=[
+            {"name": "Title", "id":"title"},
+            {"name": "Place", "id": "word"},
+            {"name": "DOI", "id": "DOI", "presentation": "markdown"}
+        ],
+        data=table_df.to_dict('records'),
+        page_action="native",
+        page_current= 0,
+        page_size= 5,
+    )
+
+    selectionBox = dbc.Row(
+        dbc.Col(
+            [
+                html.H2("Selection"),
                 dbc.Row([
                     dbc.Col([
-                        dbc.Row([
-                            html.H1("Climate and Health",className="m-5"),
-                        ],className="justify-content-center"),
-                        dbc.Row([
-                            html.H2("A rapid, computer-assisted systematic map of the literature",className="mb-5")
-                        ], className="justify-content-center"),
-                        dbc.Row([
-                            html.H4("Funded by the Department for International Development",className="mb-5")
-                        ], className="justify-content-center"),
-                        dbc.Row(logo_cols,className="col-12 justify-content-md-center")
-                    ],className="col-12 text-center"),
-                ], className="h-100 align-items-center"),
-            ], className="h-100")
-        ], className="masthead"),
-        dbc.Container([
-            ###### SECTION
-            ## SECTIONTITLE
-            dbc.Container([
-                html.H2(children='Climate and Health studies in DfID priority countries',id="regions-map"),
-                html.Div(children='''
-                    Select a group of studies by clicking and dragging a box around them on the maps below.
-                    Click on the topic bars to filter by topic, and use the blue slider to view more or less
-                    common topics in each region.
-                '''),
-            ], className="sectionHeading", id="regions-heading"),
-            ## SECTIONCONTENT
-            html.Div(children=[
-                content,
-                sidebar
-                ]
-            ),
-            ####### SECTION
-            ## SECTIONTITLE
-            dbc.Container([
-                html.H2(children='Climate and Health Pathways',id="pathways"),
-                html.Div(pathways_text),
-            ], className="sectionHeading", id="pathways-heading"),
-            html.Div(children=#[
-                pathway_content
-            ),
-            ####### SECTION
-            ## SECTIONTITLE
-            dbc.Container([
-                html.H2(children='Topic Map of Climate and Health Literature',id="topic-map"),
-                html.Div(children='''
-                    This section maps each individual document as a point in a 2-dimensional representation of the topic space.
-                    Documents with similar topics are plotted close togther.
+                        html.H4("Documents"),
+                        html.Div(children=[
+                            docTable
+                        ])
+                    ], width=8),
+                    dbc.Col([
+                        html.H3(tselect),
+                        html.Div([
+                            html.Span("No topics selected", id=f"topic-{id}"),
+                            html.Button("Clear topics", id=f"clear-topics-{id}", className="btn btn-outline-dark m-2")
+                        ]),
+                    ],width=4)
+                ])
 
-                    Hover over a document to see its title, and double click to search for it online.
-                '''),
-            ], className="sectionHeading", id="topic-heading"),
-            html.Div(children=[
-                topic_content
-            ])
-        ], style=CONTENT_STYLE)
-    ]),
+            ]
+        ),
+        className="background-container"
+    )
+    return selectionBox
+
+
+
+tabs = dcc.Tabs(
+    className='d-flex justify-content-center',
+    children = [
+        dcc.Tab(label="Maps", children=[
+            graphs,
+            make_selection_box("map-selection", "Topics"),
+            dcc.Store(id="map-store", storage_type="memory", data = {"topics": [], "cleared": True}),
+        ],className="tab-first col-2"),
+        dcc.Tab(label="Heatmaps", className="col-2", children=[
+            pathways,
+            make_selection_box("heatmap-selection", "Categories"),
+            dcc.Store(id="heatmap-store", storage_type="memory",data={"cleared": True, "bnorm":-1}),
+        ]),
+        dcc.Tab(label="Topic Map", className="col-2", children= [
+            topic_tab
+
+        ]
+    )
 ])
 
-@app.callback(
-    [Output({'type': 'heatmap', 'index': MATCH},"figure")],
-    [
-        Input({'type': 'bnorm-1', 'index': MATCH},'n_clicks'),
-        Input({'type': 'bnorm-2', 'index': MATCH},'n_clicks'),
-        Input({'type': 'bnorm-3', 'index': MATCH},'n_clicks'),
-        Input({'type': 'heatmap', 'index': MATCH},'clickData'),
-        Input("clear-topics", 'n_clicks')
-    ],
-    [State({'type': 'bnorm-1', 'index': MATCH}, 'id')],
-)
-def bnorm_heatmap(btn1, btn2, btn3, clickData, topicClear, id):
-    ctx = dash.callback_context
-    i = id['index']
-    if "clear-topics" in ctx.triggered[0]['prop_id']:
-        return [draw_heatmap(m[i], xticks[i], yticks[i],-1, None)]
+app.layout = dbc.Container([
+    header,
+    dbc.Col(tabs),
+], id="mainContainer")
 
-    changed_id = [p['prop_id'] for p in dash.callback_context.triggered][0]
-    if changed_id==".":
-        i = id['index']
-        return [draw_heatmap(m[i], xticks[i], yticks[i],-1, clickData)]
-    index = ast.literal_eval(changed_id.split('.')[0])['index']
-    if "bnorm-1" in changed_id:
-        return [draw_heatmap(m[i], xticks[i], yticks[i], -1, clickData)]
-    elif "bnorm-2" in changed_id:
-        return [draw_heatmap(m[i], xticks[i], yticks[i], 0, clickData)]
-    elif "bnorm-3" in changed_id:
-        return [draw_heatmap(m[i], xticks[i], yticks[i], 1, clickData)]
-    return [draw_heatmap(m[i], xticks[i], yticks[i], -1, clickData)]
 
 @app.callback(
     [
-        Output(component_id="doc-table",component_property='data'),
-        Output(component_id="topic-selection", component_property='children'),
-        Output(component_id="memory", component_property="data")
+        Output("bar", "figure"),
+        Output("map", "figure"),
+        Output("map-selection", "data"),
+        Output("topic-map-selection", "children"),
+        Output("map-store", "data")
     ],
     [
-        Input({'type': 'bar', 'index': ALL}, 'clickData'),
-        Input({'type': 'map', 'index': ALL}, 'selectedData'),
-        Input({'type': 'heatmap', 'index': ALL}, 'clickData'),
-        Input("clear-topics", 'n_clicks')
+        Input("region-select", "value"),
+        Input("map", "selectedData"),
+        Input("bar", "clickData"),
+        Input("barfilter-0", "n_clicks"),
+        Input("barfilter-1", "n_clicks"),
+        Input("barfilter-2", "n_clicks"),
+        Input("barfilter-3", "n_clicks"),
+        Input("barfilter-4", "n_clicks"),
+        Input("bar", "relayoutData"),
+        Input('clear-topics-map-selection', 'n_clicks')
     ],
     [
-        State(component_id="memory",component_property="data")
-    ]
+        State("map-store", "data"),
 
-)
-def bar_click(clickData, selectedData, heatmapClick, topicClear, figData):
-    ctx = dash.callback_context
-    if figData is None or len(figData)<len(clickData):
-        figData = [None]*len(clickData)
-
-    t = "No topics selected"
-    if not ctx.triggered:
-        return [table_df.to_dict('records'), t, figData]
-    else:
-        rel_df = table_df
-
-
-        if "heatmap" in ctx.triggered[0]['prop_id']:
-            idx = ast.literal_eval(ctx.triggered[0]['prop_id'].split('.')[0])['index']
-            sub_df = heat_dfs[idx]
-            t1 = heatmapClick[idx]['points'][0]['x']
-            t2 = heatmapClick[idx]['points'][0]['y']
-            thresh=0.015
-            sub_df = sub_df[
-                (sub_df[t1]>thresh) &
-                (sub_df[t2]>thresh)
-            ]
-
-            sub_df["tp"] = sub_df[t1]*sub_df[t2]
-
-            rel_df = (
-                sub_df
-                .sort_values('tp',ascending=False)
-                .reset_index(drop=True)
-                .merge(table_df, left_on="doc_id",right_on="id")
-            )
-            return rel_df.to_dict('records'), f"{t2} & {t1}", figData
-
-        if "clear-topics" in ctx.triggered[0]['prop_id']:
-            for i,x in enumerate(clickData):
-                if x is not None:
-                    figData[i] = []
-            idx = [i for i,x in enumerate(figData) if x is not None]
-            if len(idx)==0:
-                idx=0
-            else:
-                idx=idx[0]
-
-        else:
-            idx = ast.literal_eval(ctx.triggered[0]['prop_id'].split('.')[0])['index']
-
-        if "bar" in ctx.triggered[0]['prop_id']:
-            for i, cd in enumerate(clickData):
-                if i==idx:
-                    cd = cd["points"][0]["label"]
-                    if figData[i] is not None:
-                        if cd in figData[idx]:
-                            figData[idx] = [x for x in figData[idx] if x!= cd]
-                        else:
-                            figData[idx] = figData[idx] + [cd]
-                    else:
-                        figData[i] = [cd]
-                else:
-                    figData[i] = None
-
-
-        if figData[idx] is not None:
-            t = " & ".join(figData[idx])
-            docids = df.loc[df['DFID region']==labels[idx],"doc_id"]
-            rel_df = table_df[
-                (table_df["id"].isin(docids))
-            ]
-            topics = topic_df[topic_df["short_title"].isin(figData[idx])]["id"].values
-            for top in topics:
-                rel_df = rel_df[
-                    (rel_df[top]>0.01)
-                ]
-            rel_df["topics"] = rel_df[topics].sum()
-            rel_df = rel_df.sort_values("topics",ascending=False)
-
-        if selectedData[idx] is not None:
-
-            ids = [x["id"] for x in selectedData[idx]["points"] if "id" in x]
-            docids = df.loc[df['place_doc_id'].isin(ids),"doc_id"]
-            rel_df = rel_df[
-                (rel_df['id'].isin(docids))
-            ]
-        return [rel_df.to_dict('records'), t, figData]
-    return [table_df.to_dict('records'), t, figData]
-
-@app.callback(
-    Output({'type': 'bar', 'index': MATCH},'figure'),
-    [
-        Input({'type': 'slider', 'index': MATCH}, 'value'),
-        Input({'type': 'map', 'index': MATCH}, 'selectedData'),
-        Input({'type': 'bar', 'index': MATCH}, 'clickData'),
-        Input({'type': 'barfilter-0', 'index': MATCH}, 'n_clicks'),
-        Input({'type': 'barfilter-1', 'index': MATCH}, 'n_clicks'),
-        Input({'type': 'barfilter-2', 'index': MATCH}, 'n_clicks'),
-        Input({'type': 'barfilter-3', 'index': MATCH}, 'n_clicks'),
-        Input({'type': 'barfilter-4', 'index': MATCH}, 'n_clicks'),
-        Input("clear-topics", 'n_clicks')
-    ],
-    [
-        State({'type': 'slider', 'index': MATCH}, 'id'),
-        State({'type': 'bar', 'index': MATCH}, 'clickData'),
-        State(component_id="memory",component_property="data")
     ]
 )
-def update_figure(
-    n, selectedData, clickData,
+def region_interaction(
+    i, selectedData, clickData,
     bf_0, bf_1, bf_2, bf_3, bf_4,
-    topicClear,
-    i, b, figData):
-
-    i = i['index']
-
-    if clickData is not None:
-        cd = clickData["points"][0]["label"]
-        if figData is None:
-            figData = [None] * (i+1)
-
-        if figData[i] is not None:
-            if cd in figData[i]:
-                figData[i] = [x for x in figData[i] if x!= cd]
-            else:
-                figData[i] += [cd]
-        else:
-            figData[i] = [cd]
+    relayoutData, clearTopics, storeData):
 
     ctx = dash.callback_context
 
-    if "clear-topics" in ctx.triggered[0]['prop_id']:
-        figData[i] = []
+    if "region-select" in ctx.triggered[0]['prop_id']:
+        relayoutData = None
+        selectedData = None
 
+    topic_selection = "No topics selected"
+    place_ids = []
+    rel_df = None
+
+    # did we just, or have we cleared topics without since clicking on them?
+    if "clear-topics" in ctx.triggered[0]['prop_id']:
+        storeData["topics"] = []
+        storeData["cleared"] = True
+
+
+    # have we just clicked on a topic bar
+    if "bar.clickData" in ctx.triggered[0]['prop_id']:
+        storeData["cleared"] = False
+        if clickData is not None:
+            cd = clickData["points"][0]["label"]
+            if cd in storeData["topics"]:
+                storeData["topics"] = [x for x in storeData["topics"] if x!= cd]
+            else:
+                storeData["topics"] += [cd]
+
+
+    # Filter topics to just include those in the metacategories selected
     sub_topics = dfid_topics[dfid_topics["DFID region"]==labels[i]]
     topicids = set([])
     for j, bf in enumerate([bf_0, bf_1, bf_2, bf_3, bf_4]):
@@ -590,21 +444,33 @@ def update_figure(
             continue
         elif bf%2==1:
             topicids = topicids | set(topic_df.loc[topic_df['Aggregated meta-topic']==meta_topics[j],"id"])
+
     if len(topicids)>0:
         sub_topics = sub_topics[sub_topics.topic_id.isin(topicids)]
 
-    #n = max(n,sub_topics.shape[0])
-    cr = sub_topics.sort_values('ldev').head(n).tail(5)
-    sbar = None
+    cr = (
+        sub_topics
+        .sort_values('ldev')
+        .reset_index()
+    )
+
     if selectedData is not None:
-        ids = [x["id"] for x in selectedData["points"] if "id" in x]
-        docids = df.loc[df['place_doc_id'].isin(ids),"doc_id"]
+        place_ids = [x["id"] for x in selectedData["points"] if "id" in x]
+        if len(place_ids)==1:
+            place = df.loc[df['place_doc_id']==place_ids[0]]
+            place_ids = df.loc[
+                (df['lat']==place.lat.values[0]) &
+                (df['lon']==place.lon.values[0]),
+                "place_doc_id"
+            ]
+        docids = df.loc[df['place_doc_id'].isin(place_ids),"doc_id"]
         rel_df = table_df[
             (table_df['id'].isin(docids))
         ]
         sel_df = df
         sel_df["subset"] = 0
         sel_df.loc[sel_df["id"].isin(rel_df["id"]),"subset"]=1
+
         gdt = (sel_df[["id","subset"]]
                .merge(dts, left_on="id",right_on="doc_id")
                .groupby(['topic_id','subset'])['score']
@@ -616,17 +482,130 @@ def update_figure(
         gdt['deviation'] = gdt['share'] / gdt['total_share']
         gdt['ldev'] = np.log(gdt['deviation'])
         gdt = gdt[gdt['subset']==1]
-        cr = gdt.merge(topic_df, left_on="topic_id",right_on="id").sort_values('ldev').head(n).tail(5)
-    if figData is not None:
-        if figData[i] is not None:
-            cr = cr.reset_index(drop=True)
-            sbar = cr.loc[cr["short_title"].isin(figData[i])].index
+        if len(topicids)>0:
+            gdt = gdt[gdt.topic_id.isin(topicids)]
+        cr = gdt.merge(topic_df, left_on="topic_id",right_on="id").sort_values('ldev')
 
-    fig = draw_bar(cr, sbar)
+    else:
+        docids = df.loc[df['DFID region']==labels[i],"doc_id"]
+        rel_df = table_df[
+            (table_df["id"].isin(docids))
+        ]
 
-    fig.update_layout(transition_duration=500)
+    if len(storeData["topics"]) > 0:
+        topics = topic_df[topic_df["short_title"].isin(storeData["topics"])]["id"].values
+        topic_selection = ", ".join(storeData["topics"])
+        for top in topics:
+            rel_df = rel_df[
+                (rel_df[top]>0.01)
+            ]
+        rel_df["topics"] = rel_df[topics].sum()
+        rel_df = rel_df.sort_values("topics",ascending=False)
+        if len(place_ids) > 0:
+            place_ids = set(place_ids) & set(df.loc[df["doc_id"].isin(rel_df["id"]), "place_doc_id"])
+        else:
+            place_ids = set(df.loc[df["doc_id"].isin(rel_df["id"]), "place_doc_id"])
 
-    return fig
+
+
+
+    cr = cr.reset_index(drop=True)
+    sbar = cr.loc[cr["short_title"].isin(storeData["topics"])].index
+
+    bar = draw_bar(cr, sbar)
+
+    if "barfilter" not in ctx.triggered[0]['prop_id']:
+        if relayoutData is not None:
+            if "autosize" not in relayoutData:
+                if "xaxis.range[0]" in relayoutData:
+                    bar.update_xaxes(range=[
+                        relayoutData["xaxis.range[0]"],
+                        relayoutData["xaxis.range[1]"]
+                    ])
+                if "yaxis.range[0]" in relayoutData:
+                    bar.update_yaxes(range=[
+                        relayoutData["yaxis.range[0]"],
+                        relayoutData["yaxis.range[1]"]
+                    ])
+
+
+
+    map, mapTitle = draw_map(
+        region_groups[i], extents[i], geojson,
+        country_shapes, df, labels[i],
+        place_ids
+    )
+
+    if rel_df is not None:
+        rel_df = rel_df.to_dict('records')
+
+    return bar, map, rel_df, topic_selection, storeData
+
+@app.callback(
+    [
+        Output("heatmap", "figure"),
+        Output("heatmap-selection", "data"),
+        Output("topic-heatmap-selection", "children"),
+        Output("heatmap-store", "data")
+    ],
+    [
+        Input("heatmap-select", "value"),
+        Input("heatmap", 'clickData'),
+        Input('bnorm-1', 'n_clicks'),
+        Input('bnorm-2', 'n_clicks'),
+        Input('bnorm-3', 'n_clicks'),
+        Input('clear-topics-heatmap-selection', 'n_clicks')
+        # clear topics
+    ],
+    [
+        State("heatmap-store", "data")
+    ]
+)
+def heatmap_click(i, clickData, bn1, bn2, bn3, clearTopics, storeData):
+    t1, t2, topic_selection, rel_df = None, None, None, None
+    ctx = dash.callback_context
+
+    # did we just, or have we cleared topics without since clicking on them?
+    if "clear-topics" in ctx.triggered[0]['prop_id']:
+        clickData = None
+        storeData["cleared"] = True
+    if ctx.triggered[0]['prop_id'] != "heatmap.clickData":
+        if storeData["cleared"]:
+            clickData = None
+    else:
+        storeData["cleared"] = False
+
+    for button, bnorm in zip(["bnorm-1","bnorm-2","bnorm-3"],[-1,0,1]):
+        if button in ctx.triggered[0]['prop_id']:
+            storeData["bnorm"] = bnorm
+
+    # Have we just or have we since clearing, clicked on a topic combination
+    if clickData is not None:
+        t1 = clickData['points'][0]['x']
+        t2 = clickData['points'][0]['y']
+        topic_selection = f"{t1} & {t2}"
+        sub_df = heat_dfs[i]
+        if t1 in sub_df.columns and t2 in sub_df.columns:
+            thresh=0.015
+            sub_df = sub_df[
+                (sub_df[t1]>thresh) &
+                (sub_df[t2]>thresh)
+            ]
+            sub_df["tp"] = sub_df[t1]*sub_df[t2]
+
+            rel_df = (
+                sub_df
+                .sort_values('tp',ascending=False)
+                .reset_index(drop=True)
+                .merge(table_df, left_on="doc_id",right_on="id")
+            ).to_dict('records')
+        else:
+            # We must have changed heatmap
+            t1, t2, topic_selection = None, None, None
+
+    heatmap = draw_heatmap(m[i], xticks[i], yticks[i], storeData["bnorm"], t1, t2)
+
+    return heatmap, rel_df, topic_selection, storeData
 
 
 if __name__ == '__main__':

@@ -1,6 +1,38 @@
 body {
   /* font-family: "Computer Modern Sans", sans-serif; */
   font-family: Arial;
+  margin: 1.5% 7.5% 5%;
+}
+
+.background-container {
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  margin: 10px;
+  padding: 15px;
+  box-shadow: 2px 2px 2px lightgrey;
+}
+
+.dash-filter input {
+    text-align: left !important;
+    padding-left: 5px !important;
+}
+
+.tab {
+  border: none !important;
+  /* border-style: solid !important;
+  border-color: rgb(0, 0, 0, 0.2) !important;
+  border-bottom-style: none !important;
+  border-top-style: none !important;
+  border-right-style: none !important;*/
+  background-color: white !important;
+}
+
+.tab--selected {
+  font-weight: bold;
+}
+
+.tab-first {
+  border-left-style: none !important;
 }
 
 .dash-table-container .row {
