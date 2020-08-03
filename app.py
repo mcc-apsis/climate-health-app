@@ -151,14 +151,6 @@ bar = draw_bar(cr)
 
 
 
-logos = [
-    #'/assets/DfID.png',
-    '/assets/University-of-Leeds-logo.png',
-    '/assets/lshtm-black.svg',
-    '/assets/MCC_Logo_RZ_rgb.jpg'
-]
-
-logo_cols = [dbc.Col([html.Img(src=x, height="128em")], lg=4, className="m-4") for x in logos]
 
 
 header = dbc.Row(
@@ -169,7 +161,7 @@ header = dbc.Row(
         ),
         dbc.Col(
             html.Div(
-                html.H1("Climate and Health")
+                html.H1("Climate and Health",className="mt-4")
             )
             ,
         ),
@@ -283,7 +275,7 @@ topic_text = dbc.Col([
     ],className="lead"),
     html.Div(
         html.Div([
-            instructions.heatmap_instructions,
+            instructions.topic_instructions,
             html.A("less detail", href="#collapseTopic", **{"data-toggle": "collapse"})
         ], className="card card-body"),
         className="collapse", id="collapseTopic"
@@ -373,10 +365,57 @@ tabs = dcc.Tabs(
     )
 ])
 
-app.layout = dbc.Container([
-    header,
-    dbc.Col(tabs),
-], id="mainContainer")
+logos = [
+    #'/assets/DfID.png',
+    '/assets/University-of-Leeds-logo.png',
+    '/assets/lshtm-black.svg',
+    '/assets/MCC_Logo_RZ_rgb.svg'
+]
+
+logo_rows = [
+    dbc.Col(
+        html.Img(src=x, height="72px", className="justify-content-center"),
+        className="justify-content-center text-center"
+    ) for x in logos
+]
+
+
+footer = html.Footer(
+    dbc.Container([
+        dbc.Col([
+            html.Ul([
+                html.Li(html.A(
+                    "About",
+                    href="https://github.com/mcc-apsis/climate-health-app/wiki"
+                ), className="list-group-item border-0"),
+                html.Li(html.A(
+                    "Github",
+                    href="https://github.com/mcc-apsis/climate-health-app"
+                ), className="list-group-item border-0"),
+            ], className="bd-footer-links list-group-horizontal list-group"),
+            dcc.Markdown("""
+    The climate and health interactive map is funded by the UK Department for International
+    Development and carried out by researchers from the University of Leeds, the
+    London School of Health and Tropical Medicine and the Mercator Research Institute
+    on Global Commons and Climate Change.
+            """)
+            ]
+        ),
+        dbc.Row(logo_rows,className="justify-center"),
+
+
+        ],className="container-fluid p-5 p-md-5 "
+    )
+    ,className="bd-footer text-muted"
+)
+
+app.layout = html.Div([
+    dbc.Container([
+        header,
+        dbc.Col(tabs),
+    ], id="mainContainer"),
+    footer
+])
 
 
 @app.callback(

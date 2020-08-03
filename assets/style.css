@@ -1,7 +1,7 @@
 body {
   /* font-family: "Computer Modern Sans", sans-serif; */
   font-family: Arial;
-  margin: 1.5% 7.5% 5%;
+  /* margin: 1.5% 7.5% 5%; */
 }
 
 .background-container {
@@ -60,21 +60,15 @@ body {
 }
 
 .clicked {
-  opacity: 0.9 !important;
-  border: 2px solid black;
+  opacity: 1 !important;
+  border: 1px solid black;
 }
 
-.masthead::after {
-  content: "";
-  background-image: url('/assets/predicted_places_all_density.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  opacity: 0.5;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  position: absolute;
-  z-index: -1;
+.bd-footer, .list-group-item {
+  background-color: #f7f7f7;
+}
+
+.bd-footer a {
+  font-weight: 600;
+  color: #495057;
 }
