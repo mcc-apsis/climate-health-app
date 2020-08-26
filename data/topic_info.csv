@@ -1,4 +1,5 @@
 id,title,top_words,Topic ID,Aggregated meta-topic,Aggregated topic,Topic,color,short_title
+213142,"Transmission, Transmission","['transmiss', 'outbreak', 'virus', 'wnv', 'epidem', 'zika', 'vector', 'spread', 'human', 'chikungunya']",213142,Health impact,Infectious,Viral diseases,#fed9a6,Transmission
 213155,"Stroke, Stroke","['stroke', 'ischem', 'hemorrhag', 'associ', 'subtyp', 'day', 'onset', 'ich', 'sah', 'cerebrovascular']",213155,Health impact,Chronic,Stroke,#fed9a6,Stroke
 213148,"HFMD, Hand-foot-and-mouth disease","['hfmd', 'foot', 'mouth', 'hand', 'factor', 'diseas', 'meteorolog', 'childhood', 'humid', 'relat']",213148,Health impact,Infectious,HFMD,#fed9a6,HFMD
 213152,"Food, Food insecurity","['food', 'insecur', 'secur', 'hunger', 'nutrit', 'agricultur', 'product', 'africa', 'price', 'countri']",213152,Health impact,Food & nutrition,Food insecurity,#fed9a6,Food
@@ -49,7 +50,6 @@ id,title,top_words,Topic ID,Aggregated meta-topic,Aggregated topic,Topic,color,s
 213146,"Seasonality, Seasonality ","['season', 'winter', 'summer', 'variat', 'dure', 'pattern', 'spring', 'dri', 'peak', 'raini']",213146,Exposure,General seasonality & weather,Seasonality,#fbb4ae,Seasonality
 213145,"Temporal, Temporal analyses","['day', 'lag', 'associ', 'daili', 'effect', 'week', 'cumul', 'model', 'nonlinear', 'increas']",213145,Other,Methods,Temporal analyses,#bdbdbd,Temporal
 213143,"Water, Drinking water quality","['water', 'drink', 'sourc', 'suppli', 'contamin', 'qualiti', 'groundwat', 'sanit', 'sampl', 'coli']",213143,Health impact,WASH,Drinking water quality,#fed9a6,Water
-213142,"Viral, Viral diseases","['transmiss', 'outbreak', 'virus', 'wnv', 'epidem', 'zika', 'vector', 'spread', 'human', 'chikungunya']",213142,Health impact,Infectious,Viral diseases,#fed9a6,Viral
 213141,"Heatwave, Heatwaves","['heatwav', 'definit', 'dure', 'intens', 'day', 'durat', 'excess', 'period', 'warn', 'impact']",213141,Exposure,Heat,Heatwaves,#fbb4ae,Heatwave
 213140,"Temperature, Ambient temperature","['temperatur', 'effect', 'ambient', 'daili', 'mean', 'percentil', 'high', 'nonlinear', 'associ', 'minimum']",213140,Exposure,Heat,Ambient temperature,#fbb4ae,Temperature
 213139,"Resilience, Community resilience","['communiti', 'resili', 'social', 'local', 'particip', 'interview', 'knowledg', 'build', 'resid', 'percept']",213139,Intervention option,Developing community resilience,Community resilience,#ccebc5,Resilience

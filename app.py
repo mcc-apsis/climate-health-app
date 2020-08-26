@@ -200,9 +200,27 @@ graph_text = dbc.Col([
     )
 ], className="mb-3 p-0")
 
+slider_marks = {
+    round(x*0.05,2): f"{1-x*0.05:.2f}" for x in range(1,15)
+}
+
+slider_marks[0] = "1.00"
+
 graphs = dbc.Row(
     dbc.Col([
         graph_text,
+        dbc.Row([
+            dbc.Col([
+                dcc.Slider(
+                    id="rel_slider",
+                    min=0.00,
+                    max=.65,
+                    value=.65,
+                    step=.05,
+                    marks= slider_marks
+                )
+            ], className="mb-2")
+        ]),
         dbc.Row([
             dbc.Col(
                 dcc.Dropdown(
@@ -243,6 +261,18 @@ pathways = dbc.Row(
     dbc.Col(
         [
             pathway_text,
+            # dbc.Row([
+            #     dbc.Col([
+            #         dcc.Slider(
+            #             id="rel_slider_heatmap",
+            #             min=0.00,
+            #             max=.65,
+            #             value=.65,
+            #             step=.05,
+            #             marks= slider_marks
+            #         )
+            #     ], className="mb-2 hidden")
+            # ]),
             dbc.Row(
                 dbc.Col([
                     dbc.Row(dbc.Col(
@@ -430,6 +460,7 @@ app.layout = html.Div([
         Input("region-select", "value"),
         Input("map", "selectedData"),
         Input("bar", "clickData"),
+        Input("rel_slider", "value"),
         Input("barfilter-0", "n_clicks"),
         Input("barfilter-1", "n_clicks"),
         Input("barfilter-2", "n_clicks"),
@@ -444,9 +475,11 @@ app.layout = html.Div([
     ]
 )
 def region_interaction(
-    i, selectedData, clickData,
+    i, selectedData, clickData, relThreshold,
     bf_0, bf_1, bf_2, bf_3, bf_4,
     relayoutData, clearTopics, storeData):
+
+    rel_ids = doc_df.loc[doc_df['prediction']>=1-relThreshold,"id"]
 
     ctx = dash.callback_context
 
@@ -477,6 +510,7 @@ def region_interaction(
 
     # Filter topics to just include those in the metacategories selected
     sub_topics = dfid_topics[dfid_topics["DFID region"]==labels[i]]
+
     topicids = set([])
     for j, bf in enumerate([bf_0, bf_1, bf_2, bf_3, bf_4]):
         if bf is None:
@@ -504,32 +538,36 @@ def region_interaction(
             ]
         docids = df.loc[df['place_doc_id'].isin(place_ids),"doc_id"]
         rel_df = table_df[
-            (table_df['id'].isin(docids))
+            (table_df['id'].isin(docids)) &
+            (table_df['id'].isin(rel_ids))
         ]
-        sel_df = df
-        sel_df["subset"] = 0
-        sel_df.loc[sel_df["id"].isin(rel_df["id"]),"subset"]=1
 
-        gdt = (sel_df[["id","subset"]]
-               .merge(dts, left_on="id",right_on="doc_id")
-               .groupby(['topic_id','subset'])['score']
-               .sum()
-               .reset_index()
-              )
-        gdt['share'] = gdt['score'] / gdt.groupby('subset')['score'].transform('sum')
-        gdt = gdt.merge(dt_sum)
-        gdt['deviation'] = gdt['share'] / gdt['total_share']
-        gdt['ldev'] = np.log(gdt['deviation'])
-        gdt = gdt[gdt['subset']==1]
-        if len(topicids)>0:
-            gdt = gdt[gdt.topic_id.isin(topicids)]
-        cr = gdt.merge(topic_df, left_on="topic_id",right_on="id").sort_values('ldev')
 
     else:
         docids = df.loc[df['DFID region']==labels[i],"doc_id"]
         rel_df = table_df[
-            (table_df["id"].isin(docids))
+            (table_df["id"].isin(docids)) &
+            (table_df['id'].isin(rel_ids))
         ]
+
+    sel_df = df
+    sel_df["subset"] = 0
+    sel_df.loc[sel_df["id"].isin(rel_df["id"]),"subset"]=1
+
+    gdt = (sel_df[["id","subset"]]
+           .merge(dts, left_on="id",right_on="doc_id")
+           .groupby(['topic_id','subset'])['score']
+           .sum()
+           .reset_index()
+          )
+    gdt['share'] = gdt['score'] / gdt.groupby('subset')['score'].transform('sum')
+    gdt = gdt.merge(dt_sum)
+    gdt['deviation'] = gdt['share'] / gdt['total_share']
+    gdt['ldev'] = np.log(gdt['deviation'])
+    gdt = gdt[gdt['subset']==1]
+    if len(topicids)>0:
+        gdt = gdt[gdt.topic_id.isin(topicids)]
+    cr = gdt.merge(topic_df, left_on="topic_id",right_on="id").sort_values('ldev')
 
     if len(storeData["topics"]) > 0:
         topics = topic_df[topic_df["short_title"].isin(storeData["topics"])]["id"].values
@@ -571,7 +609,7 @@ def region_interaction(
 
     map, mapTitle = draw_map(
         region_groups[i], extents[i], geojson,
-        country_shapes, df, labels[i],
+        country_shapes, df[df['id'].isin(rel_ids)], labels[i],
         place_ids
     )
 
@@ -590,6 +628,7 @@ def region_interaction(
     [
         Input("heatmap-select", "value"),
         Input("heatmap", 'clickData'),
+        #Input("rel_slider_heatmap", "value"),
         Input('bnorm-1', 'n_clicks'),
         Input('bnorm-2', 'n_clicks'),
         Input('bnorm-3', 'n_clicks'),
@@ -600,9 +639,15 @@ def region_interaction(
         State("heatmap-store", "data")
     ]
 )
-def heatmap_click(i, clickData, bn1, bn2, bn3, clearTopics, storeData):
+def heatmap_click(
+    i, clickData,
+    #relThreshold,
+    bn1, bn2, bn3, clearTopics, storeData
+    ):
     t1, t2, topic_selection, rel_df = None, None, None, None
     ctx = dash.callback_context
+
+    #rel_ids = doc_df.loc[doc_df['prediction']>=1-relThreshold,"id"]
 
     # did we just, or have we cleared topics without since clicking on them?
     if "clear-topics" in ctx.triggered[0]['prop_id']:
@@ -624,6 +669,7 @@ def heatmap_click(i, clickData, bn1, bn2, bn3, clearTopics, storeData):
         t2 = clickData['points'][0]['y']
         topic_selection = f"{t1} & {t2}"
         sub_df = heat_dfs[i]
+        #sub_df = sub_df[sub_df['id'].isin(rel_ids)]
         if t1 in sub_df.columns and t2 in sub_df.columns:
             thresh=0.015
             sub_df = sub_df[
