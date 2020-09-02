@@ -210,6 +210,7 @@ graphs = dbc.Row(
     dbc.Col([
         graph_text,
         dbc.Row([
+            html.P("Filter by relevance score"),
             dbc.Col([
                 dcc.Slider(
                     id="rel_slider",

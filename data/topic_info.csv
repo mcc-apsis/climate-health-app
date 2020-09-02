@@ -1,5 +1,5 @@
 id,title,top_words,Topic ID,Aggregated meta-topic,Aggregated topic,Topic,color,short_title
-213142,"Transmission, Transmission","['transmiss', 'outbreak', 'virus', 'wnv', 'epidem', 'zika', 'vector', 'spread', 'human', 'chikungunya']",213142,Health impact,Infectious,Viral diseases,#fed9a6,Transmission
+213142,"Transmission, Transmission","['transmiss', 'outbreak', 'virus', 'wnv', 'epidem', 'zika', 'vector', 'spread', 'human', 'chikungunya']",213142,Health impact,Infectious,Transmission,#fed9a6,Transmission
 213155,"Stroke, Stroke","['stroke', 'ischem', 'hemorrhag', 'associ', 'subtyp', 'day', 'onset', 'ich', 'sah', 'cerebrovascular']",213155,Health impact,Chronic,Stroke,#fed9a6,Stroke
 213148,"HFMD, Hand-foot-and-mouth disease","['hfmd', 'foot', 'mouth', 'hand', 'factor', 'diseas', 'meteorolog', 'childhood', 'humid', 'relat']",213148,Health impact,Infectious,HFMD,#fed9a6,HFMD
 213152,"Food, Food insecurity","['food', 'insecur', 'secur', 'hunger', 'nutrit', 'agricultur', 'product', 'africa', 'price', 'countri']",213152,Health impact,Food & nutrition,Food insecurity,#fed9a6,Food

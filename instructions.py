@@ -9,6 +9,8 @@ The documents are listed in the table below.
 
 You can **filter** this data in the following ways
 
+- Filter by relevance score using the slider at the top of the page. Only documents with
+a predicted relevance value greater than that selected will be shown
 - Use the dropdown menu to select the region of interest
 - Select places on the map by clicking, or clicking and dragging. This will
 update the topic distribution on the right and the document table below
@@ -64,6 +66,6 @@ and displaying the data.
 - **World View** (green tab) shows the same documents on a geographical map of the world. Hovering and clicking works in the same way
 - **Draw labels** (blue tab) draws labels for each topic that point to clusters of documents related to the topic
 - **Continent Filter** (yellow tab) lets you filter the data by continent
-- **Document/Topic filter** (three black lines) lets you filter by searching the document titles.
-A topic filter is not yet implemented but is in development.
+- **Topic selector** (red tab) shows a hierarchy of topics. Deselect topics you wish to hide
+- **Document filter** (three black lines) lets you filter by searching the document titles.
 ''')
