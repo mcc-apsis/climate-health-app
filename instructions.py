@@ -7,10 +7,18 @@ Concretely, the height of the bar shows the share of documents in the region men
 divided by the share of global documents mentioning each topic.
 The documents are listed in the table below.
 
+Documents were included on the basis of a machine-learning algorithm which
+was trained using documents labelled by hand to predict the relevance of documents
+and so there is some uncertainty about whether they are relevant to climate and
+health or not. Scores range from 0 to 1 and are to be understood as the probability
+that they are relevant. 
+Documents with higher scores are more likely to be relevant, and
+documents with scores lower than 0.35 were not included in the map.
+
 You can **filter** this data in the following ways
 
 - Filter by relevance score using the slider at the top of the page. Only documents with
-a predicted relevance value greater than that selected will be shown
+a predicted relevance value greater than that selected will be shown.
 - Use the dropdown menu to select the region of interest
 - Select places on the map by clicking, or clicking and dragging. This will
 update the topic distribution on the right and the document table below

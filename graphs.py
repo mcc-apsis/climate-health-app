@@ -104,7 +104,10 @@ def draw_map(
         (country_shapes['UN statistical'].isin(regions))
     ]
 
-    sub_df = df[df["country_predicted"].isin(cs["SOV_A3"])]
+    sub_df = df[
+        (df["country_predicted"].isin(cs["SOV_A3"])) |
+        (df["country_predicted"].isin(cs["ADM0_A3"]))
+    ]
     fig = go.Figure()
 
     # Colour DFID priority countries in the region
@@ -211,10 +214,16 @@ def draw_heatmap(m, xticks, yticks,norm=-1, t1 = None, t2 = None):
 
     )
 
-    heatmap.update_xaxes(
-        title_text="Climate driver",
-        showgrid=False
-    )
+    if "Upper-middle" in xticks:
+        heatmap.update_xaxes(
+            title_text="Income Category",
+            showgrid=False
+        )
+    else:
+        heatmap.update_xaxes(
+            title_text="Climate driver",
+            showgrid=False
+        )
     heatmap.update_yaxes(
         title_text="Health impact",
         showgrid=False
