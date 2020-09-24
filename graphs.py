@@ -75,6 +75,9 @@ Topic: %{x}<br> %{text:.2f} times as common in the region/selection as globally<
 
     marker_line_width = [1] * cr.shape[0]
     marker_opacity = [0.5] * cr.shape[0]
+
+    if "count" in cr.columns:
+        marker_opacity = np.where(pd.isna(cr["count"]),0.2,0.5)
     if len(sbar) > 0:
         for i in sbar:
             marker_line_width[i] = 3

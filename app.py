@@ -220,7 +220,20 @@ graphs = dbc.Row(
     dbc.Col([
         graph_text,
         dbc.Row([
-            html.P("Filter by relevance score"),
+            html.P("Filter by predicted relevance score   "),
+            html.Img(
+                src="assets/question-diamond-fill.svg",
+                alt="",
+                #style={"height": "1.2em"},
+                #className="btn btn-link p-0 ml-1",
+                title="Predicted relevance",
+                **{
+                    "data-container": "body", "data-toggle":"popover",
+                    "data-placement": "right", "data-content": instructions.relevance_explanation
+                },
+                style={"height":"1.3em"},
+                className="ml-1"
+            ),
             dbc.Col([
                 dcc.Slider(
                     id="rel_slider",
@@ -572,6 +585,19 @@ def region_interaction(
            .sum()
            .reset_index()
           )
+
+    # How many documents are there in each topic
+    tns = (
+        rel_df[["id"]]
+        .merge(dts, left_on="id",right_on="doc_id")
+        .query('score>0.01')
+        .groupby('topic_id')['score']
+        .count()
+        .to_frame(name="count")
+        .sort_values('count')
+        .reset_index()
+    )
+
     gdt['share'] = gdt['score'] / gdt.groupby('subset')['score'].transform('sum')
     gdt = gdt.merge(dt_sum)
     gdt['deviation'] = gdt['share'] / gdt['total_share']
@@ -579,7 +605,13 @@ def region_interaction(
     gdt = gdt[gdt['subset']==1]
     if len(topicids)>0:
         gdt = gdt[gdt.topic_id.isin(topicids)]
-    cr = gdt.merge(topic_df, left_on="topic_id",right_on="id").sort_values('ldev')
+
+    cr = (gdt
+        .merge(topic_df, left_on="topic_id",right_on="id")
+        .merge(tns, how="left")
+        .sort_values('ldev')
+    )
+
 
     if len(storeData["topics"]) > 0:
         topics = topic_df[topic_df["short_title"].isin(storeData["topics"])]["id"].values
