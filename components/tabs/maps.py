@@ -4,7 +4,7 @@ import dash_bootstrap_components as dbc
 from ..instructions import graph_instructions, relevance_explanation
 from ..figures.map import draw_map
 from ..figures.barchart import draw_bar
-from ..settings import region_groups, extents, labels, colors, meta_topics
+from ..settings import region_groups, extents, labels, colors, meta_topics, base_url
 from ..data import geojson, df, country_shapes, dfid_topics
 from .util import make_selection_box
 
@@ -107,7 +107,7 @@ graphs = dbc.Row(
         ]),
         dbc.Row([
             dbc.Col(dcc.Graph(id='map', figure=mapFig, config={
-                'topojsonURL': 'assets/'
+                'topojsonURL': f'{base_url}/assets/'
             }), width=6),
             dbc.Col(dcc.Graph(id='bar', figure=bar), width=6)
         ])
