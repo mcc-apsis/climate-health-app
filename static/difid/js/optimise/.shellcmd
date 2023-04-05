@@ -1,0 +1,14 @@
+<!-- 
+npx google-closure-compiler \
+--js=optimise/drawmap.js \
+--js=optimise/sidebar.js \
+--js=optimise/tree.js \
+--js=optimise/fuzzysort.js \
+--js=optimise/legend.js \
+--js=optimise/label.js \
+--js=optimise/mouseevents.js \
+--js=optimise/select_country.js \
+--js=optimise/index.js \
+--js_output_file=compiled.js 
+
+ -->

@@ -1,0 +1,151 @@
+
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index:9999;
+  top: 0;
+  right: 0;
+  background-color: white;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+  text-align:center;
+  
+  
+}
+
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+
+}
+
+.sidenav a:hover{
+  color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+.sidenav .head{
+      position: absolute;
+      top:0:
+}
+
+.sidenav .clr,.sidenav .sall, .sidenav .save {
+  top: 0;
+  font-size: 16px;
+  margin-left: 50px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 8px;}
+}
+
+#sidebar{
+    top:0;
+    height:100vh;
+    width:32px;
+    right:0;
+    z-index: 999; 
+    position:absolute;
+    display: flex;
+    flex-direction: column;
+    /* background-color: #222; */
+}
+
+
+#search{
+    width:26vw;
+    height:25pt;
+}
+
+.subsection{
+background: #ddd;
+padding: 1%;
+width:95%;
+background-color: #222;
+
+border-width: thin;
+border-fill: #888
+  border-radius: 15px;
+  border-style: solid;
+  /* border:'#444'; */
+  /* height:10%; */
+}
+
+.titleresults{
+    width:90%;
+    max-height:500px;
+    overflow: auto;
+    display: flex;
+    
+}
+checkbox{display:inline;
+float:left;}
+label {
+     display:block;
+     clear:right; 
+    color:#333;
+    font-size: 12pt;
+}
+
+b{
+    color:#0084ff
+}
+
+
+
+
+
+/* Style the links inside the sidenav */
+#sidebar a {
+  position: absolute; /* Position them relative to the browser window */
+  right: -180px; /* Position them outside of the screen */
+  transition: 0.3s; /* Add transition on hover */
+  padding: 12px; /* 15px padding */
+  padding-left: 40px;
+  padding-right: 0px;
+  width: 180px; /* Set a specific width */
+  text-decoration: none; /* Remove underline */
+  font-size: 20px; /* Increase font size */
+  color: white; /* White text color */
+  float:right;
+  border-radius: 15px 5px 5px 5px; /* Rounded corners on the top right and bottom right side */
+}
+
+#sidebar a:hover {
+  right: -19; /* On mouse-over, make the elements appear as they should */
+}
+
+/* The about link: 20px from the top with a green background */
+#L1 {
+  top: 20px;
+  background-color:#2ecc71;
+}
+
+#L2 {
+  top: 70px;
+  background-color: #3498db; /* Blue */
+}
+
+#L3 {
+  top: 120px;
+  background-color: #f1c40f; /* Red */
+}
+
+#L4{
+  top: 170px;
+  background-color: #e74c3c /* Light Black */
+}

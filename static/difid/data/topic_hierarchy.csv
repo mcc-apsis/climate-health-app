@@ -1,0 +1,71 @@
+id,l1,l2,l3
+213155,Health impact,Chronic,Stroke
+213148,Health impact,Infectious,HFMD
+213152,Health impact,Food & nutrition,Food insecurity
+213156,Health impact,Infectious,Influenza
+213136,Health impact,Health system demand,Hospital admissions
+213163,Other,Methods,Disease incidence
+213159,Health impact,Health system demand,Visits to health care facilities
+213144,Health impact,Health system demand,Public health 
+213150,Exposure,Emissions,Particulate concentration (air)
+213191,Mediating pathways,Geographic exposure,China
+213190,Intervention option,Mitigation co-benefits,Energy policy & co-benefits
+213189,Health impact,Infectious,Leptospirosis
+213188,Mediating pathways,Demographic vulnerability,Age & Sex
+213187,Mediating pathways,Geographic exposure,Rural households
+213186,Exposure,Precipitation variabilty,Montly rainfall
+213185,Other,Methods,Exposure
+213184,Health impact,Occupational health & injury,Occupational injury
+213183,Health impact,Respiratory,Asthma
+213182,Exposure,Heat,Cold & extreme temperatures
+213181,Mediating pathways,Geographic exposure,Building design
+213180,Health impact,Infectious,Cholera
+213179,Intervention option,Mitigation co-benefits,Greenhouse pathways
+213178,Health impact,Chronic,Thermal stress & comfort
+213177,Health impact,All-cause mortality,Death
+213176,Exposure,Drought,Dust storms
+213175,Health impact,Mental health,Suicide
+213174,Health impact,Respiratory,Fungal spores
+213173,Exposure,Drought,Drought
+213172,Health impact,Mental health,Mental health & PTSD
+213171,Exposure,Heat,Diurnal temperature range
+213170,Other,Methods,Risk assessment & risk perception
+213169,Intervention option,Policy & practice,Adaptation
+213168,Other,Methods,Spatial analyses
+213167,Exposure,Extreme precipitation & flooding,Hurricanes
+213166,Exposure,Heat,Increasing temperatures
+213165,Exposure,Emissions,PAH
+213164,Other,Methods,Symptoms
+213162,Health impact,Maternal & child health,Child health
+213161,Health impact,Health system demand,Patients
+213160,Health impact,Respiratory,Respiratory viruses
+213158,Mediating pathways,Social vulnerability,Vulnerability
+213157,Exposure,Drought,Wildfires
+213154,Exposure,General seasonality & weather,Meteorological variables
+213153,Exposure,Emissions,Emissions (ozone)
+213151,Health impact,Food & nutrition,Farmers & agriculture
+213149,Exposure,Extreme precipitation & flooding,Extreme weather events
+213147,Health impact,Maternal & child health,Birth & pregnancy
+213146,Exposure,General seasonality & weather,Seasonality
+213145,Other,Methods,Temporal analyses
+213143,Health impact,WASH,Drinking water quality
+213142,Health impact,Infectious,Viral diseases
+213141,Exposure,Heat,Heatwaves
+213140,Exposure,Heat,Ambient temperature
+213139,Intervention option,Developing community resilience,Community resilience
+213138,Other,Methods,Modeling & forecasting
+213137,Health impact,Infectious,Mosquito vector dynamics
+213135,Health impact,Infectious,Infectious diseases general
+213134,Other,Methods,Case data
+213133,Exposure,Extreme precipitation & flooding,Floods
+213132,Health impact,Respiratory,Pollen & allergies
+213127,Health impact,Infectious,Malaria
+213125,Health impact,All-cause mortality,Mortality
+213123,Health impact,Respiratory,Air pollution
+213126,Intervention option,Disaster risk reduction,Disaster risk reduction
+213124,Exposure,Emissions,Emissions (Nox & vehicles)
+213122,Exposure,General climate change,General climate change
+213128,Health impact,Infectious,Dengue
+213131,Health impact,Chronic,Heat stress
+213130,Exposure,Emissions,Particulate matter
+213129,Mediating pathways,Geographic exposure,Urban areas

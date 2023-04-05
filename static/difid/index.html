@@ -1,0 +1,94 @@
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/sidebar.css">
+
+
+<body>
+
+
+<svg id='overlay'></svg>
+
+<!-- <h2 id=header class='logo'>EviMapping </h2> -->
+<span id='title'>Loading ... Please wait. </span>
+
+<svg id='countryselector' style='visibility:hidden'/>
+<svg id='topicselector' style='visibility:hidden'/>
+
+
+<div id="mySidenav" class="sidenav">
+    <div class='head'>
+        <a href="#" class="clr" onclick="clr()" style='left:30pt'>Clear</a>
+        <a href="#" class="sall" onclick="sall()" style='left:30pt'>Select All</a>
+        <a href="#" class="save" onclick="save()" style='left:30pt'>Save</a>
+    </div>
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav('mySidenav')">&times;</a>
+
+    <a href="#">
+        <p> Filter by Title </p>
+        <input type="search" id="titlesearch" placeholder="Search Titles Here ..."> </input>
+
+        <div id='titleresults'></div>
+
+    </a>
+    <a href="#">Filter by Topic</a>
+    <!-- <a href="#">Clients</a>
+  <a href="#">Contact</a> -->
+</div>
+
+
+<div id="dataSidenav" class="sidenav"></div>
+
+
+<div id='sidebar'>
+    <a href="#" id="L1" onclick='switchview()'> World View </a>
+    <a href="#" id="L4" onclick='access("topicselector")'>Topic Selector</a>
+    <a href="#" id="L2" onclick='label()'>Draw Labels</a>
+    <a href="#" id="L3" onclick='access("countryselector")'>Continent Filter</a>
+
+    <span style="color:#333;padding-left:2.5px;font-size:30px;top:45vh;position:absolute;cursor:pointer"
+          onclick="openNav('mySidenav')">   &#9776;</span>
+</div>
+
+<div id="world" style="width: 100vw; height: 100vh"></div>
+
+
+<title>DIFID Evidence Atlas</title>
+<author D.Ellis></author>
+<institution CEMAC - Leeds></institution>
+<div id="container"></div>
+
+
+<label id='slider' for="points">Score: <input type="range" id="points" name="points" min="0" max="100" value='100'
+                                              class='slider' onchange='sliderchange()'></label>
+
+
+<div id="tooltip">
+
+</div>
+
+
+<!-- em calc div  -->
+<div id="div" style="height:0;width:0;outline:none;border:none;padding:none;margin:none;box-sizing:content-box;"></div>
+
+</body>
+
+
+<script src="js/d3.v4.min.js"></script>
+<link rel="stylesheet" href="css/leaflet.0.7.css"/>
+<script src="js/lib/leaflet.0.7.js"></script>
+<script src="js/lib/d3-geo-projection.v2.min.js"></script>
+<script src="js/d3-array.js"></script>
+<script src="js/annotate.js"></script>
+<script src="js/compiled.js"></script>
+<script src="js/topojson-client.min.js"></script>
+
+<script>
+  window.scroll(0, 0);
+  document.body.onload = function () {
+    window.scroll(0, 0);
+    window.addEventListener('resize', function (event) {
+      window.location.reload(); // just call it again...
+    });
+  };
+</script>
