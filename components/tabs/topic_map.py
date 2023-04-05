@@ -1,7 +1,7 @@
 from dash import html, dcc
 import dash_bootstrap_components as dbc
 from ..instructions import topic_instructions
-from ..settings import base_url_difid
+from ..settings import url_difid
 
 topic_text = dbc.Col([
     html.P([
@@ -21,7 +21,7 @@ topic_tab = dbc.Row(
     dbc.Col(
         [
             topic_text,
-            html.Iframe(src=f'{base_url_difid}/static/difid/index.html', width='100%', height='800px')
+            html.Iframe(src=url_difid, width='100%', height='800px')
         ]
     ),
     className='background-container'

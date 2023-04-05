@@ -13,7 +13,7 @@ from components.footer import footer
 from components.figures.barchart import draw_bar
 from components.figures.map import draw_map
 from components.figures.heatmap import draw_heatmap
-from components.settings import labels, meta_topics, extents, region_groups, base_url
+from components.settings import labels, meta_topics, extents, region_groups, url_req, url_asset, url_routes, url_base
 from components.data import doc_df, topic_df, df, table_df, dts, dt_sum, geojson, country_shapes, yticks, \
     xticks, heat_dfs, m
 
@@ -21,21 +21,16 @@ app = dash.Dash(
     __name__,
     title='Climate and Health',
     external_scripts=[
-        f'{base_url}assets/js/popper.2.11.7.min.js',
-        # 'assets/js/bootstrap.5.3.0.bundle.min.js',
-        # 'assets/js/mathjax.3.2.2.min.js'
+        f'{url_req}{url_asset}assets/js/popper.2.11.7.min.js',
     ],
     external_stylesheets=[
-        f'{base_url}assets/css/bootstrap.5.2.3.css',
-        f'{base_url}assets/css/computer-modern-web-font/fonts.css'
+        f'{url_req}{url_asset}assets/css/bootstrap.5.2.3.css',
+        f'{url_req}{url_asset}assets/css/computer-modern-web-font/fonts.css'
     ],
-    # pages_folder='static',
-    # url_base_pathname=base_url,
-    # routes_pathname_prefix='/climate-health/',
-    # url_base_pathname=None,
-    requests_pathname_prefix=base_url,
-    routes_pathname_prefix=base_url,
-    # assets_url_path=base_url
+    url_base_pathname=url_base,
+    requests_pathname_prefix=url_req,
+    routes_pathname_prefix=url_routes,
+    assets_url_path=url_asset
 )
 
 server = app.server

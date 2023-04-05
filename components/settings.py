@@ -1,7 +1,10 @@
 import os
 
-base_url = os.getenv('CHA_BASEURL', '/climate-health/')
-base_url_difid = os.getenv('CHA_BASEURL_DIFID', '/climate-health/')
+url_base = os.getenv('CHA_BASEURL', '/')
+url_req = os.getenv('CHA_URL_REQUESTS', '/climate-health/')
+url_routes = os.getenv('CHA_URL_ROUTES', '/climate-health/')
+url_asset = os.getenv('CHA_URL_ASSET', '/')
+url_difid = os.getenv('CHA_URL_DIFID', '/static/difid/index.html')
 
 background_color = '#f9f9f9'
 colors = ['#fed9a6', '#fbb4ae', '#ccebc5', '#b3cde3', '#bdbdbd']

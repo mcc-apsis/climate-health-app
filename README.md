@@ -31,6 +31,11 @@ Environment=FLASK_CONFIG=production
 Environment=CHA_HOST=127.0.0.1
 Environment=CHA_PORT=8085
 Environment=CHA_DEBUG=off
+Environment=CHA_BASEURL=/
+Environment=CHA_URL_REQUESTS=/climate-health/
+Environment=CHA_URL_ROUTES=/climate-health/
+Environment=CHA_URL_ASSET=/
+Environment=CHA_URL_DIFID=/static/difid/index.html')
 WorkingDirectory=/var/www/climate-health
 ExecStart=/var/www/climate-health/venv/bin/python -m gunicorn -b 127.0.0.1:8085 -w 4 app:server
 Restart=always
