@@ -9,6 +9,7 @@ Flask-Compress==1.13
 plotly==5.14.0
 numpy==1.24.2
 pandas==2.0.0
+gunicorn==20.1.0
 
 # Brotli==1.0.7
 # click==7.1.2
