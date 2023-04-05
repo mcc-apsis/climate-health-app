@@ -1,3 +1,8 @@
+import os
+
+base_url = os.getenv('CHA_BASEURL', '/climate-health/')
+base_url_difid = os.getenv('CHA_BASEURL_DIFID', '/climate-health/')
+
 background_color = '#f9f9f9'
 colors = ['#fed9a6', '#fbb4ae', '#ccebc5', '#b3cde3', '#bdbdbd']
 meta_topics = ['Health impact', 'Exposure', 'Intervention option', 'Mediating pathways', 'Other']
